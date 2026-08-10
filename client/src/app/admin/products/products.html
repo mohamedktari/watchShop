@@ -3,7 +3,7 @@
   <button
     type="button"
     (click)="openCreate()"
-    class="rounded-full bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600"
+    class="rounded-full bg-lime-500 px-4 py-2 text-sm font-semibold text-brand-900 hover:bg-lime-600"
   >
     + {{ 'admin.products.add' | translate }}
   </button>
@@ -27,7 +27,7 @@
             <span class="w-fit rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-600">masque</span>
           }
           <div class="mt-auto flex gap-2 pt-3">
-            <button type="button" (click)="openEdit(product)" class="flex-1 rounded-full border border-brand-500 px-3 py-1.5 text-sm font-medium text-brand-600 hover:bg-brand-50">
+            <button type="button" (click)="openEdit(product)" class="flex-1 rounded-full border border-brand-600 px-3 py-1.5 text-sm font-medium text-brand-600 hover:bg-brand-50">
               {{ 'admin.products.edit' | translate }}
             </button>
             <button type="button" (click)="remove(product)" class="flex-1 rounded-full border border-red-300 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50">
@@ -51,37 +51,37 @@
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.nameFr' | translate }}</label>
-            <input type="text" formControlName="nameFr" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+            <input type="text" formControlName="nameFr" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.nameAr' | translate }}</label>
-            <input type="text" formControlName="nameAr" dir="rtl" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+            <input type="text" formControlName="nameAr" dir="rtl" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.descriptionFr' | translate }}</label>
-            <textarea formControlName="descriptionFr" rows="3" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500"></textarea>
+            <textarea formControlName="descriptionFr" rows="3" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500"></textarea>
           </div>
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.descriptionAr' | translate }}</label>
-            <textarea formControlName="descriptionAr" dir="rtl" rows="3" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500"></textarea>
+            <textarea formControlName="descriptionAr" dir="rtl" rows="3" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500"></textarea>
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.price' | translate }}</label>
-            <input type="number" min="0" formControlName="price" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+            <input type="number" min="0" formControlName="price" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.stock' | translate }}</label>
-            <input type="number" min="0" formControlName="stock" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+            <input type="number" min="0" formControlName="stock" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.category' | translate }}</label>
-            <input type="text" formControlName="category" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+            <input type="text" formControlName="category" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
         </div>
 
@@ -91,7 +91,7 @@
         </div>
 
         <label class="flex items-center gap-2 text-sm text-gray-700">
-          <input type="checkbox" formControlName="isActive" class="rounded border-gray-300 text-brand-500 focus:ring-brand-500" />
+          <input type="checkbox" formControlName="isActive" class="rounded border-gray-300 text-violet-500 focus:ring-violet-500" />
           {{ 'admin.products.isActive' | translate }}
         </label>
 
@@ -99,7 +99,7 @@
           <button
             type="submit"
             [disabled]="saving()"
-            class="flex-1 rounded-full bg-brand-500 px-4 py-2 font-semibold text-white hover:bg-brand-600 disabled:opacity-60"
+            class="flex-1 rounded-full bg-lime-500 px-4 py-2 font-semibold text-brand-900 hover:bg-lime-600 disabled:opacity-60"
           >
             {{ 'admin.products.save' | translate }}
           </button>

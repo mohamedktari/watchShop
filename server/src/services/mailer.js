@@ -41,7 +41,7 @@ async function sendNewOrderEmail(order, product) {
   `;
 
   await transporter.sendMail({
-    from: `"WatchShop" <${process.env.GMAIL_USER}>`,
+    from: `"Tivlo" <${process.env.GMAIL_USER}>`,
     to,
     subject: `Nouvelle commande : ${product.nameFr} x${order.quantity}`,
     html,

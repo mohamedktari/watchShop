@@ -20,7 +20,7 @@
             @if (product.images?.[0]) {
               <img [src]="product.images[0]" [alt]="name(product)" class="h-full w-full object-cover transition group-hover:scale-105" />
             } @else {
-              <div class="flex h-full w-full items-center justify-center text-brand-400">WatchShop</div>
+              <div class="flex h-full w-full items-center justify-center text-brand-400">Tivlo</div>
             }
           </a>
           <div class="flex flex-1 flex-col gap-2 p-4">
@@ -32,7 +32,7 @@
             @if (product.stock > 0) {
               <a
                 [routerLink]="['/commander', product._id]"
-                class="mt-auto rounded-full bg-brand-500 px-4 py-2 text-center font-medium text-white transition hover:bg-brand-600"
+                class="mt-auto rounded-full bg-lime-500 px-4 py-2 text-center font-medium text-brand-900 transition hover:bg-lime-600"
               >
                 {{ 'home.order' | translate }}
               </a>

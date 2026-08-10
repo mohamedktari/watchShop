@@ -12,12 +12,12 @@ import { AdminAuthService } from '../../core/services/admin-auth.service';
     <div class="min-h-screen bg-gray-50">
       <header class="flex items-center justify-between bg-brand-900 px-6 py-4 text-white">
         <div class="flex items-center gap-6">
-          <span class="text-lg font-extrabold text-brand-100">WatchShop Admin</span>
+          <span class="text-lg font-extrabold text-lime-500">Tivlo Admin</span>
           <nav class="flex gap-4 text-sm font-medium">
-            <a routerLink="/admin/commandes" routerLinkActive="text-brand-400" class="hover:text-brand-200">
+            <a routerLink="/admin/commandes" routerLinkActive="text-lime-500" class="hover:text-brand-100">
               {{ 'admin.dashboard.title' | translate }}
             </a>
-            <a routerLink="/admin/produits" routerLinkActive="text-brand-400" class="hover:text-brand-200">
+            <a routerLink="/admin/produits" routerLinkActive="text-lime-500" class="hover:text-brand-100">
               {{ 'admin.products.title' | translate }}
             </a>
           </nav>

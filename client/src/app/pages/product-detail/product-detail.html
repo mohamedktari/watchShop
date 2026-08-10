@@ -10,7 +10,7 @@
           @if (p.images?.[activeImage()]) {
             <img [src]="p.images[activeImage()]" [alt]="name(p)" class="h-full w-full object-cover" />
           } @else {
-            <div class="flex h-full w-full items-center justify-center text-brand-400">WatchShop</div>
+            <div class="flex h-full w-full items-center justify-center text-brand-400">Tivlo</div>
           }
         </div>
 
@@ -21,7 +21,7 @@
                 type="button"
                 (click)="activeImage.set(i)"
                 class="h-16 w-16 overflow-hidden rounded-lg border-2"
-                [class.border-brand-500]="activeImage() === i"
+                [class.border-violet-500]="activeImage() === i"
                 [class.border-transparent]="activeImage() !== i"
               >
                 <img [src]="img" class="h-full w-full object-cover" />
@@ -47,7 +47,7 @@
         @if (p.stock > 0) {
           <a
             [routerLink]="['/commander', p._id]"
-            class="mt-6 rounded-full bg-brand-500 px-6 py-3 text-center font-semibold text-white transition hover:bg-brand-600"
+            class="mt-6 rounded-full bg-lime-500 px-6 py-3 text-center font-semibold text-brand-900 transition hover:bg-lime-600"
           >
             {{ 'product.order' | translate }}
           </a>

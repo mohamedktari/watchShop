@@ -1,0 +1,78 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "admin": "Espace admin"
+  },
+  "home": {
+    "title": "Nos montres",
+    "subtitle": "Decouvrez notre collection",
+    "order": "Commander",
+    "outOfStock": "Rupture de stock",
+    "noProducts": "Aucune montre disponible pour le moment"
+  },
+  "product": {
+    "back": "Retour au catalogue",
+    "price": "Prix",
+    "stock": "En stock",
+    "description": "Description",
+    "order": "Commander cette montre"
+  },
+  "order": {
+    "title": "Passer commande",
+    "quantity": "Quantite",
+    "nom": "Nom",
+    "prenom": "Prenom",
+    "telephone": "Numero de telephone",
+    "ville": "Ville",
+    "submit": "Confirmer la commande",
+    "submitting": "Envoi en cours...",
+    "success": "Votre commande a ete envoyee avec succes ! Nous vous contacterons bientot.",
+    "error": "Une erreur est survenue. Veuillez reessayer.",
+    "backHome": "Retour a l'accueil"
+  },
+  "admin": {
+    "login": {
+      "title": "Connexion admin",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "error": "Email ou mot de passe incorrect"
+    },
+    "dashboard": {
+      "title": "Commandes",
+      "product": "Montre",
+      "client": "Client",
+      "phone": "Telephone",
+      "city": "Ville",
+      "quantity": "Qte",
+      "status": "Statut",
+      "date": "Date",
+      "noOrders": "Aucune commande pour le moment",
+      "logout": "Deconnexion",
+      "statusPending": "En attente",
+      "statusConfirmed": "Confirmee",
+      "statusCancelled": "Annulee"
+    },
+    "products": {
+      "title": "Mes montres",
+      "add": "Ajouter une montre",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "confirmDelete": "Supprimer cette montre ?",
+      "nameFr": "Nom (francais)",
+      "nameAr": "Nom (arabe)",
+      "descriptionFr": "Description (francais)",
+      "descriptionAr": "Description (arabe)",
+      "price": "Prix (TND)",
+      "stock": "Stock",
+      "category": "Categorie",
+      "images": "Photos",
+      "isActive": "Visible sur le site",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
+  },
+  "common": {
+    "tnd": "TND"
+  }
+}

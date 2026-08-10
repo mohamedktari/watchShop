@@ -1,0 +1,64 @@
+<section class="mx-auto max-w-xl px-4 py-10">
+  @if (submitted()) {
+    <div class="rounded-2xl bg-white p-8 text-center shadow-card">
+      <p class="text-lg font-semibold text-green-600">{{ 'order.success' | translate }}</p>
+      <a routerLink="/" class="mt-6 inline-block rounded-full bg-brand-500 px-6 py-3 font-semibold text-white hover:bg-brand-600">
+        {{ 'order.backHome' | translate }}
+      </a>
+    </div>
+  } @else if (product(); as p) {
+    <div class="rounded-2xl bg-white p-6 shadow-card sm:p-8">
+      <div class="mb-6 flex items-center gap-4 border-b border-brand-100 pb-6">
+        @if (p.images?.[0]) {
+          <img [src]="p.images[0]" [alt]="name(p)" class="h-16 w-16 rounded-lg object-cover" />
+        }
+        <div>
+          <p class="font-semibold text-brand-900">{{ name(p) }}</p>
+          <p class="text-brand-600">{{ p.price }} {{ 'common.tnd' | translate }}</p>
+        </div>
+      </div>
+
+      <h1 class="mb-4 text-xl font-bold text-brand-900">{{ 'order.title' | translate }}</h1>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.quantity' | translate }}</label>
+          <input type="number" min="1" formControlName="quantity" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.prenom' | translate }}</label>
+            <input type="text" formControlName="prenom" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.nom' | translate }}</label>
+            <input type="text" formControlName="nom" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+          </div>
+        </div>
+
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.telephone' | translate }}</label>
+          <input type="tel" formControlName="telephone" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+        </div>
+
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.ville' | translate }}</label>
+          <input type="text" formControlName="ville" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+        </div>
+
+        @if (errorMsg()) {
+          <p class="text-sm text-red-600">{{ 'order.error' | translate }}</p>
+        }
+
+        <button
+          type="submit"
+          [disabled]="submitting()"
+          class="w-full rounded-full bg-brand-500 px-6 py-3 font-semibold text-white transition hover:bg-brand-600 disabled:opacity-60"
+        >
+          {{ (submitting() ? 'order.submitting' : 'order.submit') | translate }}
+        </button>
+      </form>
+    </div>
+  }
+</section>

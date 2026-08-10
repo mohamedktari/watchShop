@@ -1,0 +1,62 @@
+@if (product(); as p) {
+  <section class="mx-auto max-w-5xl px-4 py-10">
+    <a routerLink="/" class="mb-6 inline-block text-sm font-medium text-brand-600 hover:underline">
+      &larr; {{ 'product.back' | translate }}
+    </a>
+
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
+      <div>
+        <div class="aspect-square overflow-hidden rounded-2xl bg-brand-100">
+          @if (p.images?.[activeImage()]) {
+            <img [src]="p.images[activeImage()]" [alt]="name(p)" class="h-full w-full object-cover" />
+          } @else {
+            <div class="flex h-full w-full items-center justify-center text-brand-400">WatchShop</div>
+          }
+        </div>
+
+        @if (p.images.length > 1) {
+          <div class="mt-3 flex gap-2">
+            @for (img of p.images; track img; let i = $index) {
+              <button
+                type="button"
+                (click)="activeImage.set(i)"
+                class="h-16 w-16 overflow-hidden rounded-lg border-2"
+                [class.border-brand-500]="activeImage() === i"
+                [class.border-transparent]="activeImage() !== i"
+              >
+                <img [src]="img" class="h-full w-full object-cover" />
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <h1 class="text-2xl font-extrabold text-brand-900">{{ name(p) }}</h1>
+        <p class="mt-2 text-2xl font-bold text-brand-600">{{ p.price }} {{ 'common.tnd' | translate }}</p>
+
+        @if (description(p)) {
+          <div class="mt-6">
+            <h2 class="font-semibold text-brand-900">{{ 'product.description' | translate }}</h2>
+            <p class="mt-2 whitespace-pre-line text-gray-600">{{ description(p) }}</p>
+          </div>
+        }
+
+        <p class="mt-4 text-sm text-gray-500">{{ 'product.stock' | translate }}: {{ p.stock }}</p>
+
+        @if (p.stock > 0) {
+          <a
+            [routerLink]="['/commander', p._id]"
+            class="mt-6 rounded-full bg-brand-500 px-6 py-3 text-center font-semibold text-white transition hover:bg-brand-600"
+          >
+            {{ 'product.order' | translate }}
+          </a>
+        } @else {
+          <span class="mt-6 rounded-full bg-gray-200 px-6 py-3 text-center font-semibold text-gray-500">
+            {{ 'home.outOfStock' | translate }}
+          </span>
+        }
+      </div>
+    </div>
+  </section>
+}

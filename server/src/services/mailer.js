@@ -36,6 +36,7 @@ async function sendNewOrderEmail(order, product) {
     <p><strong>Client :</strong> ${order.prenom} ${order.nom}</p>
     <p><strong>Telephone :</strong> ${order.telephone}</p>
     <p><strong>Ville :</strong> ${order.ville}</p>
+    <p><strong>Adresse :</strong> ${order.adresse}</p>
     <p><strong>Date :</strong> ${new Date(order.createdAt).toLocaleString('fr-FR')}</p>
   `;
 

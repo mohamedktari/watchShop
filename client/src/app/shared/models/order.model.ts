@@ -10,6 +10,7 @@ export interface Order {
   prenom: string;
   telephone: string;
   ville: string;
+  adresse: string;
   statut: OrderStatus;
   createdAt: string;
 }
@@ -21,4 +22,5 @@ export interface NewOrderPayload {
   prenom: string;
   telephone: string;
   ville: string;
+  adresse: string;
 }

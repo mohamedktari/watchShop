@@ -14,6 +14,7 @@
           <th class="px-4 py-3">{{ 'admin.dashboard.client' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.phone' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.city' | translate }}</th>
+          <th class="px-4 py-3">{{ 'admin.dashboard.address' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.date' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.status' | translate }}</th>
         </tr>
@@ -26,6 +27,7 @@
             <td class="px-4 py-3">{{ order.prenom }} {{ order.nom }}</td>
             <td class="px-4 py-3" dir="ltr">{{ order.telephone }}</td>
             <td class="px-4 py-3">{{ order.ville }}</td>
+            <td class="px-4 py-3">{{ order.adresse }}</td>
             <td class="px-4 py-3 text-gray-500">{{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="px-4 py-3">
               <select

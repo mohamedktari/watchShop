@@ -8,6 +8,7 @@ import { ProductService } from '../../core/services/product.service';
 import { OrderService } from '../../core/services/order.service';
 import { LanguageService } from '../../core/services/language.service';
 import { Product } from '../../shared/models/product.model';
+import { TUNISIA_CITIES } from '../../shared/data/tunisia-cities';
 
 @Component({
   selector: 'app-order-form',
@@ -35,7 +36,7 @@ export class OrderForm implements OnInit {
     prenom: ['', Validators.required],
     telephone: ['', [Validators.required, Validators.pattern(/^[0-9+\s]{6,20}$/)]],
     ville: ['', Validators.required],
-    adresse: ['', Validators.required],
+    adresse: [{ value: '', disabled: true }, Validators.required],
   });
 
   private quantity = toSignal(this.form.controls.quantity.valueChanges, {
@@ -45,10 +46,27 @@ export class OrderForm implements OnInit {
   subtotal = computed(() => (this.product()?.price ?? 0) * (this.quantity() || 0));
   total = computed(() => this.subtotal() + this.deliveryFee);
 
+  cities = TUNISIA_CITIES;
+
+  private selectedCityName = toSignal(this.form.controls.ville.valueChanges, {
+    initialValue: this.form.controls.ville.value,
+  });
+
+  selectedCity = computed(() => this.cities.find((c) => c.city === this.selectedCityName()) ?? null);
+
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
     if (!productId) return;
     this.productService.getOne(productId).subscribe((product) => this.product.set(product));
+
+    this.form.controls.ville.valueChanges.subscribe((cityName) => {
+      this.form.controls.adresse.setValue('');
+      if (this.cities.some((c) => c.city === cityName)) {
+        this.form.controls.adresse.enable();
+      } else {
+        this.form.controls.adresse.disable();
+      }
+    });
   }
 
   name(p: Product): string {

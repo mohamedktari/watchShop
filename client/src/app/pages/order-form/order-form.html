@@ -43,13 +43,36 @@
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.ville' | translate }}</label>
-          <input type="text" formControlName="ville" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+          <label for="ville-select" class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.ville' | translate }}</label>
+          <select id="ville-select" formControlName="ville" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500">
+            <option value="" disabled>{{ 'order.chooseCity' | translate }}</option>
+            @for (c of cities; track c.id) {
+              <option [value]="c.city">{{ c.city }}</option>
+            }
+          </select>
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.adresse' | translate }}</label>
-          <input type="text" formControlName="adresse" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
+          <label for="adresse-select" class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.adresse' | translate }}</label>
+          <select
+            id="adresse-select"
+            formControlName="adresse"
+            class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500 disabled:bg-gray-100 disabled:text-gray-400"
+          >
+            <option value="" disabled>{{ 'order.chooseAddress' | translate }}</option>
+            @if (selectedCity(); as city) {
+              <optgroup [label]="'order.neighborhoods' | translate">
+                @for (n of city.neighborhoods; track n) {
+                  <option [value]="n">{{ n }}</option>
+                }
+              </optgroup>
+              <optgroup [label]="'order.streets' | translate">
+                @for (s of city.mainStreets; track s) {
+                  <option [value]="s">{{ s }}</option>
+                }
+              </optgroup>
+            }
+          </select>
         </div>
 
         <div class="space-y-1 rounded-lg bg-brand-50 p-4 text-sm">

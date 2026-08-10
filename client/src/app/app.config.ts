@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    ...provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
     importProvidersFrom(TranslateModule.forRoot({ fallbackLang: 'fr' })),
+    ...provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
   ],
 };

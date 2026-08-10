@@ -1,5 +1,5 @@
 <div class="flex min-h-screen items-center justify-center bg-brand-900 px-4">
-  <div class="w-full max-w-sm rounded-2xl bg-white p-8 shadow-card-hover">
+  <div class="w-full max-w-sm animate-scale-in rounded-2xl bg-white p-8 shadow-card-hover">
     <h1 class="mb-6 text-center text-xl font-bold text-brand-900">{{ 'admin.login.title' | translate }}</h1>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
@@ -14,13 +14,13 @@
       </div>
 
       @if (error()) {
-        <p class="text-sm text-red-600">{{ 'admin.login.error' | translate }}</p>
+        <p class="animate-fade-in text-sm text-red-600">{{ 'admin.login.error' | translate }}</p>
       }
 
       <button
         type="submit"
         [disabled]="loading()"
-        class="w-full rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition hover:bg-lime-600 disabled:opacity-60"
+        class="w-full transform-gpu rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.02] hover:bg-lime-600 hover:shadow-md active:scale-95 disabled:opacity-60 disabled:hover:scale-100"
       >
         {{ 'admin.login.submit' | translate }}
       </button>

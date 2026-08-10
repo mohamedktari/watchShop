@@ -1,13 +1,21 @@
 <section class="mx-auto max-w-xl px-4 py-10">
   @if (submitted()) {
-    <div class="rounded-2xl bg-white p-8 text-center shadow-card">
-      <p class="text-lg font-semibold text-green-600">{{ 'order.success' | translate }}</p>
-      <a routerLink="/" class="mt-6 inline-block rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 hover:bg-lime-600">
+    <div class="animate-pop-in rounded-2xl bg-white p-8 text-center shadow-card">
+      <div class="mx-auto mb-4 flex h-16 w-16 animate-scale-in items-center justify-center rounded-full bg-lime-100">
+        <svg class="h-8 w-8 text-lime-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+      </div>
+      <p class="text-lg font-semibold text-brand-900">{{ 'order.success' | translate }}</p>
+      <a
+        routerLink="/"
+        class="mt-6 inline-block transform-gpu rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition-all duration-200 hover:scale-105 hover:bg-lime-600 hover:shadow-md active:scale-95"
+      >
         {{ 'order.backHome' | translate }}
       </a>
     </div>
   } @else if (product(); as p) {
-    <div class="rounded-2xl bg-white p-6 shadow-card sm:p-8">
+    <div class="animate-fade-in-up rounded-2xl bg-white p-6 shadow-card sm:p-8">
       <div class="mb-6 flex items-center gap-4 border-b border-brand-100 pb-6">
         @if (p.images?.[0]) {
           <img [src]="p.images[0]" [alt]="name(p)" class="h-16 w-16 rounded-lg object-cover" />
@@ -91,13 +99,13 @@
         </div>
 
         @if (errorMsg()) {
-          <p class="text-sm text-red-600">{{ 'order.error' | translate }}</p>
+          <p class="animate-fade-in text-sm text-red-600">{{ 'order.error' | translate }}</p>
         }
 
         <button
           type="submit"
           [disabled]="submitting()"
-          class="w-full rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition hover:bg-lime-600 disabled:opacity-60"
+          class="w-full transform-gpu rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.02] hover:bg-lime-600 hover:shadow-md active:scale-95 disabled:opacity-60 disabled:hover:scale-100"
         >
           {{ (submitting() ? 'order.submitting' : 'order.submit') | translate }}
         </button>

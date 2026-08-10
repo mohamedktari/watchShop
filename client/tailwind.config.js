@@ -30,6 +30,41 @@ module.exports = {
           600: '#5B3FE0',
         },
       },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.94)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        slideDown: {
+          '0%': { opacity: '0', transform: 'translateY(-8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-400px 0' },
+          '100%': { backgroundPosition: '400px 0' },
+        },
+        popIn: {
+          '0%': { transform: 'scale(0.85)' },
+          '60%': { transform: 'scale(1.05)' },
+          '100%': { transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.35s ease-out both',
+        'fade-in-up': 'fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'scale-in': 'scaleIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'slide-down': 'slideDown 0.25s ease-out both',
+        'shimmer': 'shimmer 1.6s linear infinite',
+        'pop-in': 'popIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

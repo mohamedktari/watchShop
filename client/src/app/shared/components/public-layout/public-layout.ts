@@ -9,9 +9,9 @@ import { LanguageSwitcher } from '../language-switcher/language-switcher';
   imports: [RouterOutlet, RouterLink, TranslateModule, LanguageSwitcher],
   template: `
     <div class="flex min-h-screen flex-col bg-brand-50">
-      <header class="bg-brand-900 text-white shadow-lg">
+      <header class="animate-slide-down bg-brand-900 text-white shadow-lg">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-          <a routerLink="/" class="text-xl font-extrabold tracking-wide text-lime-500">Tivlo</a>
+          <a routerLink="/" class="text-xl font-extrabold tracking-wide text-lime-500 transition-transform duration-200 hover:scale-105">Tivlo</a>
           <app-language-switcher />
         </div>
       </header>

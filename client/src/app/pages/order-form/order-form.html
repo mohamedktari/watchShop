@@ -47,6 +47,21 @@
           <input type="text" formControlName="ville" class="w-full rounded-lg border-gray-300 focus:border-brand-500 focus:ring-brand-500" />
         </div>
 
+        <div class="space-y-1 rounded-lg bg-brand-50 p-4 text-sm">
+          <div class="flex justify-between text-gray-600">
+            <span>{{ 'order.articlePrice' | translate }}</span>
+            <span>{{ subtotal() }} {{ 'common.tnd' | translate }}</span>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>{{ 'order.delivery' | translate }}</span>
+            <span>+{{ deliveryFee }} {{ 'common.tnd' | translate }}</span>
+          </div>
+          <div class="flex justify-between border-t border-brand-100 pt-1 font-bold text-brand-900">
+            <span>{{ 'order.total' | translate }}</span>
+            <span>{{ total() }} {{ 'common.tnd' | translate }}</span>
+          </div>
+        </div>
+
         @if (errorMsg()) {
           <p class="text-sm text-red-600">{{ 'order.error' | translate }}</p>
         }

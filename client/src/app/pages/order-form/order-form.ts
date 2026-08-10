@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -21,6 +22,8 @@ export class OrderForm implements OnInit {
   private orderService = inject(OrderService);
   public lang = inject(LanguageService);
 
+  readonly deliveryFee = 8;
+
   product = signal<Product | null>(null);
   submitting = signal(false);
   submitted = signal(false);
@@ -33,6 +36,13 @@ export class OrderForm implements OnInit {
     telephone: ['', [Validators.required, Validators.pattern(/^[0-9+\s]{6,20}$/)]],
     ville: ['', Validators.required],
   });
+
+  private quantity = toSignal(this.form.controls.quantity.valueChanges, {
+    initialValue: this.form.controls.quantity.value,
+  });
+
+  subtotal = computed(() => (this.product()?.price ?? 0) * (this.quantity() || 0));
+  total = computed(() => this.subtotal() + this.deliveryFee);
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');

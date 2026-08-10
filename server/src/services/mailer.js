@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 
+const DELIVERY_FEE = 8;
+
 function getTransporter() {
   return nodemailer.createTransport({
     service: 'gmail',
@@ -19,11 +21,17 @@ async function sendNewOrderEmail(order, product) {
   const transporter = getTransporter();
   const to = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.GMAIL_USER;
 
+  const subtotal = product.price * order.quantity;
+  const total = subtotal + DELIVERY_FEE;
+
   const html = `
     <h2>Nouvelle commande recue</h2>
     <p><strong>Montre :</strong> ${product.nameFr}</p>
     <p><strong>Quantite :</strong> ${order.quantity}</p>
     <p><strong>Prix unitaire :</strong> ${product.price} TND</p>
+    <p><strong>Sous-total :</strong> ${subtotal} TND</p>
+    <p><strong>Livraison :</strong> +${DELIVERY_FEE} TND</p>
+    <p><strong>Total :</strong> ${total} TND</p>
     <hr/>
     <p><strong>Client :</strong> ${order.prenom} ${order.nom}</p>
     <p><strong>Telephone :</strong> ${order.telephone}</p>

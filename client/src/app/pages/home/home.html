@@ -31,8 +31,12 @@
                 {{ 'product.promo' | translate }}
               </span>
             }
-            @if (product.images?.[0]) {
-              <img [src]="product.images[0]" [alt]="name(product)" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            @if (product.images?.length) {
+              <app-image-carousel
+                [images]="product.images"
+                [alt]="name(product)"
+                class="block h-full w-full transition-transform duration-500 group-hover:scale-105"
+              />
             } @else {
               <div class="flex h-full w-full items-center justify-center text-brand-400">Tivlo</div>
             }

@@ -6,11 +6,12 @@ import { ProductService } from '../../core/services/product.service';
 import { LanguageService } from '../../core/services/language.service';
 import { Product } from '../../shared/models/product.model';
 import { hasDiscount } from '../../shared/utils/pricing';
+import { ImageCarousel } from '../../shared/components/image-carousel/image-carousel';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, ImageCarousel],
   templateUrl: './home.html',
 })
 export class Home implements OnInit, AfterViewInit {

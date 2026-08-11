@@ -1,12 +1,12 @@
 <section class="mx-auto max-w-xl px-4 py-10">
   @if (submitted()) {
-    <div class="animate-pop-in rounded-2xl bg-white p-8 text-center shadow-card">
+    <div class="animate-pop-in rounded-2xl bg-brand-600 p-8 text-center shadow-card">
       <div class="mx-auto mb-4 flex h-16 w-16 animate-scale-in items-center justify-center rounded-full bg-lime-100">
         <svg class="h-8 w-8 text-lime-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
         </svg>
       </div>
-      <p class="text-lg font-semibold text-brand-900">{{ 'order.success' | translate }}</p>
+      <p class="text-lg font-semibold text-white">{{ 'order.success' | translate }}</p>
       <a
         routerLink="/"
         class="mt-6 inline-block transform-gpu rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition-all duration-200 hover:scale-105 hover:bg-lime-600 hover:shadow-md active:scale-95"
@@ -15,50 +15,50 @@
       </a>
     </div>
   } @else if (product(); as p) {
-    <div class="animate-fade-in-up rounded-2xl bg-white p-6 shadow-card sm:p-8">
-      <div class="mb-6 flex items-center gap-4 border-b border-brand-100 pb-6">
+    <div class="animate-fade-in-up rounded-2xl bg-brand-600 p-6 shadow-card sm:p-8">
+      <div class="mb-6 flex items-center gap-4 border-b border-white/10 pb-6">
         @if (p.images?.[0]) {
           <img [src]="p.images[0]" [alt]="name(p)" class="h-16 w-16 rounded-lg object-cover" />
         }
         <div>
-          <p class="font-semibold text-brand-900">{{ name(p) }}</p>
+          <p class="font-semibold text-white">{{ name(p) }}</p>
           @if (hasDiscount(p)) {
             <p>
               <span class="mr-2 text-sm text-gray-400 line-through">{{ p.price }} {{ 'common.tnd' | translate }}</span>
-              <span class="font-semibold text-violet-600">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
+              <span class="font-semibold text-violet-400">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
             </p>
           } @else {
-            <p class="text-brand-600">{{ p.price }} {{ 'common.tnd' | translate }}</p>
+            <p class="text-brand-100">{{ p.price }} {{ 'common.tnd' | translate }}</p>
           }
         </div>
       </div>
 
-      <h1 class="mb-4 text-xl font-bold text-brand-900">{{ 'order.title' | translate }}</h1>
+      <h1 class="mb-4 text-xl font-bold text-white">{{ 'order.title' | translate }}</h1>
 
       <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
         <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.quantity' | translate }}</label>
+          <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.quantity' | translate }}</label>
           <input type="number" min="1" formControlName="quantity" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.prenom' | translate }}</label>
+            <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.prenom' | translate }}</label>
             <input type="text" formControlName="prenom" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.nom' | translate }}</label>
+            <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.nom' | translate }}</label>
             <input type="text" formControlName="nom" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.telephone' | translate }}</label>
+          <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.telephone' | translate }}</label>
           <input type="tel" formControlName="telephone" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
         </div>
 
         <div>
-          <label for="ville-select" class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.ville' | translate }}</label>
+          <label for="ville-select" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.ville' | translate }}</label>
           <select id="ville-select" formControlName="ville" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500">
             <option value="" disabled>{{ 'order.chooseCity' | translate }}</option>
             @for (c of cities; track c.id) {
@@ -68,7 +68,7 @@
         </div>
 
         <div>
-          <label for="adresse-select" class="mb-1 block text-sm font-medium text-gray-700">{{ 'order.adresse' | translate }}</label>
+          <label for="adresse-select" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.adresse' | translate }}</label>
           <select
             id="adresse-select"
             formControlName="adresse"
@@ -92,7 +92,7 @@
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">
+            <label class="mb-1 block text-sm font-medium text-gray-200">
               {{ 'order.genre' | translate }}
               <span class="font-normal text-gray-400">({{ 'order.optional' | translate }})</span>
             </label>
@@ -105,7 +105,7 @@
                 [class.bg-violet-50]="form.value.genre === 'HOMME'"
                 [class.text-violet-600]="form.value.genre === 'HOMME'"
                 [class.border-gray-300]="form.value.genre !== 'HOMME'"
-                [class.text-gray-600]="form.value.genre !== 'HOMME'"
+                [class.text-gray-300]="form.value.genre !== 'HOMME'"
               >
                 {{ 'order.homme' | translate }}
               </button>
@@ -117,14 +117,14 @@
                 [class.bg-violet-50]="form.value.genre === 'FEMME'"
                 [class.text-violet-600]="form.value.genre === 'FEMME'"
                 [class.border-gray-300]="form.value.genre !== 'FEMME'"
-                [class.text-gray-600]="form.value.genre !== 'FEMME'"
+                [class.text-gray-300]="form.value.genre !== 'FEMME'"
               >
                 {{ 'order.femme' | translate }}
               </button>
             </div>
           </div>
           <div>
-            <label for="age-input" class="mb-1 block text-sm font-medium text-gray-700">
+            <label for="age-input" class="mb-1 block text-sm font-medium text-gray-200">
               {{ 'order.age' | translate }}
               <span class="font-normal text-gray-400">({{ 'order.optional' | translate }})</span>
             </label>
@@ -139,16 +139,16 @@
           </div>
         </div>
 
-        <div class="space-y-1 rounded-lg bg-brand-50 p-4 text-sm">
-          <div class="flex justify-between text-gray-600">
+        <div class="space-y-1 rounded-lg bg-black/20 p-4 text-sm">
+          <div class="flex justify-between text-gray-300">
             <span>{{ 'order.articlePrice' | translate }}</span>
             <span>{{ subtotal() }} {{ 'common.tnd' | translate }}</span>
           </div>
-          <div class="flex justify-between text-gray-600">
+          <div class="flex justify-between text-gray-300">
             <span>{{ 'order.delivery' | translate }}</span>
             <span>+{{ deliveryFee }} {{ 'common.tnd' | translate }}</span>
           </div>
-          <div class="flex justify-between border-t border-brand-100 pt-1 font-bold text-brand-900">
+          <div class="flex justify-between border-t border-white/10 pt-1 font-bold text-white">
             <span>{{ 'order.total' | translate }}</span>
             <span>{{ total() }} {{ 'common.tnd' | translate }}</span>
           </div>

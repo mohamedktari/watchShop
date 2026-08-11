@@ -8,7 +8,9 @@
     "subtitle": "Decouvrez notre collection",
     "order": "Commander",
     "outOfStock": "Rupture de stock",
-    "noProducts": "Aucune montre disponible pour le moment"
+    "noProducts": "Aucune montre disponible pour le moment",
+    "allCategories": "Toutes",
+    "noProductsInCategory": "Aucune montre dans cette categorie"
   },
   "product": {
     "back": "Retour au catalogue",

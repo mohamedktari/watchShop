@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,6 +17,17 @@ import { ImageCarousel } from '../../shared/components/image-carousel/image-caro
 export class Home implements OnInit {
   products = signal<Product[]>([]);
   loading = signal(true);
+  selectedCategory = signal<string>('');
+
+  categories = computed(() => {
+    const set = new Set(this.products().map((p) => p.category).filter((c): c is string => !!c));
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  });
+
+  filteredProducts = computed(() => {
+    const cat = this.selectedCategory();
+    return cat ? this.products().filter((p) => p.category === cat) : this.products();
+  });
 
   constructor(private productService: ProductService, public lang: LanguageService) {}
 
@@ -28,6 +39,10 @@ export class Home implements OnInit {
       },
       error: () => this.loading.set(false),
     });
+  }
+
+  setCategory(category: string): void {
+    this.selectedCategory.set(category === this.selectedCategory() ? '' : category);
   }
 
   name(p: Product): string {

@@ -4,6 +4,41 @@
 </section>
 
 <section class="mx-auto max-w-6xl px-4 pb-10">
+  @if (!loading() && categories().length > 0) {
+    <div class="mb-6 flex animate-fade-in-up flex-wrap justify-center gap-2">
+      <button
+        type="button"
+        (click)="setCategory('')"
+        class="transform-gpu rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200 active:scale-95"
+        [class.bg-lime-500]="selectedCategory() === ''"
+        [class.border-lime-500]="selectedCategory() === ''"
+        [class.text-brand-900]="selectedCategory() === ''"
+        [class.border-white/20]="selectedCategory() !== ''"
+        [class.bg-black/20]="selectedCategory() !== ''"
+        [class.text-white]="selectedCategory() !== ''"
+        [class.hover:border-lime-400]="selectedCategory() !== ''"
+      >
+        {{ 'home.allCategories' | translate }}
+      </button>
+      @for (cat of categories(); track cat) {
+        <button
+          type="button"
+          (click)="setCategory(cat)"
+          class="transform-gpu rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200 active:scale-95"
+          [class.bg-lime-500]="selectedCategory() === cat"
+          [class.border-lime-500]="selectedCategory() === cat"
+          [class.text-brand-900]="selectedCategory() === cat"
+          [class.border-white/20]="selectedCategory() !== cat"
+          [class.bg-black/20]="selectedCategory() !== cat"
+          [class.text-white]="selectedCategory() !== cat"
+          [class.hover:border-lime-400]="selectedCategory() !== cat"
+        >
+          {{ cat }}
+        </button>
+      }
+    </div>
+  }
+
   @if (loading()) {
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       @for (i of [1, 2, 3, 4, 5, 6]; track i) {
@@ -12,9 +47,11 @@
     </div>
   } @else if (products().length === 0) {
     <p class="animate-fade-in text-center text-white drop-shadow">{{ 'home.noProducts' | translate }}</p>
+  } @else if (filteredProducts().length === 0) {
+    <p class="animate-fade-in text-center text-white drop-shadow">{{ 'home.noProductsInCategory' | translate }}</p>
   } @else {
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      @for (product of products(); track product._id; let i = $index) {
+      @for (product of filteredProducts(); track product._id; let i = $index) {
         <div
           class="group flex origin-bottom animate-fade-in-up flex-col overflow-hidden rounded-2xl bg-brand-600 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
           [style.animation-delay.ms]="i * 70"
@@ -23,6 +60,11 @@
             @if (hasDiscount(product)) {
               <span class="absolute left-3 top-3 z-10 animate-pop-in rounded-full bg-violet-500 px-2.5 py-1 text-xs font-bold text-white shadow-md">
                 {{ 'product.promo' | translate }}
+              </span>
+            }
+            @if (product.category) {
+              <span class="absolute right-3 top-3 z-10 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                {{ product.category }}
               </span>
             }
             @if (product.images?.length) {

@@ -8,7 +8,9 @@
     "subtitle": "اكتشف مجموعتنا",
     "order": "اطلب الآن",
     "outOfStock": "نفدت الكمية",
-    "noProducts": "لا توجد ساعات متاحة حاليا"
+    "noProducts": "لا توجد ساعات متاحة حاليا",
+    "allCategories": "الكل",
+    "noProductsInCategory": "لا توجد ساعات في هذه الفئة"
   },
   "product": {
     "back": "العودة إلى الكتالوج",

@@ -36,7 +36,7 @@ Le site est accessible sur `http://localhost:4200`. L'espace admin est sur `http
 1. **MongoDB Atlas** (base de donnees) : https://www.mongodb.com/cloud/atlas/register
    - Creer un cluster gratuit M0
    - Creer un utilisateur de base de donnees
-   - Autoriser l'acces reseau depuis n'importe ou (`0.0.0.0/0`) pour que Render puisse se connecter
+   - Autoriser l'acces reseau depuis n'importe ou (`0.0.0.0/0`) pour que Vercel puisse se connecter (les fonctions serverless n'ont pas d'IP fixe)
    - Copier l'URI de connexion dans `MONGODB_URI`
 
 2. **Cloudinary** (hebergement des photos) : https://cloudinary.com/users/register/free
@@ -48,29 +48,37 @@ Le site est accessible sur `http://localhost:4200`. L'espace admin est sur `http
    - Generer un "mot de passe d'application" : https://myaccount.google.com/apppasswords
    - Le mettre dans `GMAIL_APP_PASSWORD`, et l'adresse Gmail dans `GMAIL_USER` et `ADMIN_NOTIFICATION_EMAIL`
 
-## Deploiement (gratuit)
+## Deploiement (gratuit) — tout sur Vercel
 
-### Backend sur Render
+Le frontend et le backend sont deployes comme **deux projets Vercel separes**, importes depuis le meme repo GitHub. C'est le pattern standard pour un monorepo Angular + Express (deux arbres de dependances independants), et ca revient au meme resultat qu'un unique projet : tout tourne sur Vercel, plus besoin de Render.
 
-1. Pousser le code sur GitHub (dossier `server/`)
-2. Sur https://render.com : New > Web Service, connecter le repo, Root Directory = `server`
-3. Build Command: `npm install` — Start Command: `npm start`
-4. Ajouter toutes les variables de `.env.example` dans l'onglet Environment
-5. Deployer. Noter l'URL generee (ex: `https://watchshop-api.onrender.com`)
+### Backend (API) sur Vercel
 
-Note : le palier gratuit de Render met le service en veille apres 15 min d'inactivite. La premiere requete apres une pause peut prendre ~30-50s.
+1. Pousser le code sur GitHub
+2. Sur https://vercel.com/new : importer le repo `watchShop`, **Root Directory = `server`**
+3. Framework Preset : "Other" (le `vercel.json` + `api/index.js` du dossier `server/` gerent tout — pas de Build Command a definir)
+4. Ajouter toutes les variables de `.env.example` dans Environment Variables (voir liste plus bas)
+5. Deployer. Noter l'URL generee (ex: `https://watchshop-api.vercel.app`)
 
-### Frontend sur Vercel ou Netlify
+Le backend tourne en fonctions serverless (`server/api/index.js` enveloppe l'app Express existante). La connexion MongoDB est mise en cache entre invocations (voir `server/src/config/db.js`) pour eviter d'epuiser le quota de connexions Atlas.
 
-1. Mettre a jour `client/src/environments/environment.prod.ts` avec l'URL Render (`https://.../api`)
-2. Pousser le code sur GitHub (dossier `client/`)
-3. Sur Vercel/Netlify : importer le repo, Root Directory = `client`
+### Frontend sur Vercel
+
+1. Mettre a jour `client/src/environments/environment.prod.ts` avec l'URL du backend Vercel (`https://.../api`)
+2. Pousser le code sur GitHub
+3. Sur https://vercel.com/new : importer le repo `watchShop` une deuxieme fois comme nouveau projet, **Root Directory = `client`**
 4. Build Command: `npm run build` — Output Directory: `dist/client/browser`
 5. Deployer
 
-### Mettre a jour CORS
+### CORS
 
-Une fois le frontend deploye, mettre son URL dans la variable `CLIENT_URL` sur Render (redeployer le backend pour que ca prenne effet).
+`CLIENT_URL` (variable d'env du backend) accepte une liste d'origines separees par des virgules, ex :
+`http://localhost:4200,https://watch-shop-watchshop.vercel.app`
+Ajouter l'URL du frontend deploye a cette liste, puis redeployer le backend pour que ca prenne effet.
+
+### Ancien backend Render (optionnel)
+
+Le projet a d'abord ete deploye sur Render avant de migrer vers Vercel. Le service Render peut etre supprime des que le backend Vercel est confirme fonctionnel — il n'est plus utilise par le frontend, mais rien ne force sa suppression immediate.
 
 ## Ajouter un montre / gerer les commandes
 

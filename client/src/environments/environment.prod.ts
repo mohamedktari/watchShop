@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://watchshop-api-1dz2.onrender.com/api',
+  apiUrl: 'https://watch-shop-lpmo.vercel.app/api',
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,9 @@ import { Product } from '../../shared/models/product.model';
   imports: [CommonModule, RouterLink, TranslateModule],
   templateUrl: './home.html',
 })
-export class Home implements OnInit {
+export class Home implements OnInit, AfterViewInit {
+  @ViewChild('heroVideo') heroVideo?: ElementRef<HTMLVideoElement>;
+
   products = signal<Product[]>([]);
   loading = signal(true);
 
@@ -25,6 +27,17 @@ export class Home implements OnInit {
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
+    });
+  }
+
+  ngAfterViewInit(): void {
+    const video = this.heroVideo?.nativeElement;
+    if (!video) return;
+    // Chrome's autoplay policy checks the `muted` JS property, which a static
+    // HTML attribute doesn't always reliably set through Angular's renderer.
+    video.muted = true;
+    video.play().catch(() => {
+      // Autoplay blocked (e.g. low-power mode) — video stays paused on its poster frame, which is fine.
     });
   }
 

@@ -35,14 +35,14 @@
         @if (p.category) {
           <span class="mb-2 w-fit rounded-full bg-black/30 px-2.5 py-1 text-xs font-medium text-gray-200">{{ p.category }}</span>
         }
-        <h1 class="text-2xl font-extrabold text-white">{{ name(p) }}</h1>
+        <h1 class="font-display text-2xl font-extrabold text-white">{{ name(p) }}</h1>
         <p class="mt-2 flex items-center gap-3">
           @if (hasDiscount(p)) {
             <span class="animate-pop-in rounded-full bg-violet-500 px-2.5 py-1 text-xs font-bold text-white">{{ 'product.promo' | translate }}</span>
             <span class="text-lg font-normal text-gray-400 line-through">{{ p.price }} {{ 'common.tnd' | translate }}</span>
-            <span class="text-2xl font-bold text-violet-400">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
+            <span class="font-display text-2xl font-bold text-violet-400">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
           } @else {
-            <span class="text-2xl font-bold text-brand-100">{{ p.price }} {{ 'common.tnd' | translate }}</span>
+            <span class="font-display text-2xl font-bold text-brand-100">{{ p.price }} {{ 'common.tnd' | translate }}</span>
           }
         </p>
 

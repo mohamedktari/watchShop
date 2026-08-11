@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <h1 class="mb-4 text-xl font-bold text-white">{{ 'order.title' | translate }}</h1>
+      <h1 class="font-display mb-4 text-xl font-bold text-white">{{ 'order.title' | translate }}</h1>
 
       <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
         <div>
@@ -150,7 +150,7 @@
           </div>
           <div class="flex justify-between border-t border-white/10 pt-1 font-bold text-white">
             <span>{{ 'order.total' | translate }}</span>
-            <span>{{ total() }} {{ 'common.tnd' | translate }}</span>
+            <span class="font-display">{{ total() }} {{ 'common.tnd' | translate }}</span>
           </div>
         </div>
 

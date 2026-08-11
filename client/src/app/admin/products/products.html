@@ -1,5 +1,5 @@
 <div class="mb-6 flex animate-fade-in-up items-center justify-between">
-  <h1 class="text-xl font-bold text-brand-900">{{ 'admin.products.title' | translate }}</h1>
+  <h1 class="font-display text-xl font-bold text-brand-900">{{ 'admin.products.title' | translate }}</h1>
   <button
     type="button"
     (click)="openCreate()"
@@ -77,7 +77,7 @@
 @if (showForm()) {
   <div class="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/50 p-4">
     <div class="max-h-[90vh] w-full max-w-lg animate-scale-in overflow-y-auto rounded-2xl bg-white p-6">
-      <h2 class="mb-4 text-lg font-bold text-brand-900">
+      <h2 class="font-display mb-4 text-lg font-bold text-brand-900">
         {{ (editingId() ? 'admin.products.edit' : 'admin.products.add') | translate }}
       </h2>
 

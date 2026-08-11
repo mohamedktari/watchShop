@@ -18,9 +18,24 @@
         class="group flex animate-fade-in-up flex-col overflow-hidden rounded-xl bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
         [style.animation-delay.ms]="i * 60"
       >
-        <div class="aspect-video overflow-hidden bg-brand-100">
+        <div class="relative aspect-video overflow-hidden bg-brand-100">
           @if (product.images?.[0]) {
             <img [src]="product.images[0]" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          }
+          @if (i !== 0) {
+            <button
+              type="button"
+              (click)="moveToTop(product)"
+              [attr.aria-label]="'admin.products.moveToTop' | translate"
+              [title]="'admin.products.moveToTop' | translate"
+              class="absolute right-2 top-2 flex h-8 w-8 transform-gpu items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-violet-500 active:scale-95"
+            >
+              &#8593;
+            </button>
+          } @else {
+            <span class="absolute right-2 top-2 rounded-full bg-lime-500 px-2 py-1 text-xs font-bold text-brand-900 shadow-md">
+              {{ 'admin.products.featured' | translate }}
+            </span>
           }
         </div>
         <div class="flex flex-1 flex-col gap-1 p-4">

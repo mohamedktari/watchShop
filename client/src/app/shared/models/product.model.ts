@@ -10,6 +10,7 @@ export interface Product {
   stock: number;
   category: string;
   isActive: boolean;
+  sortOrder: number;
   createdAt: string;
   updatedAt: string;
 }

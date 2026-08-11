@@ -1,7 +1,7 @@
 const Product = require('../models/Product');
 
 async function listPublic(req, res) {
-  const products = await Product.find({ isActive: true }).sort({ createdAt: -1 });
+  const products = await Product.find({ isActive: true }).sort({ sortOrder: -1, createdAt: -1 });
   res.json(products);
 }
 
@@ -12,7 +12,7 @@ async function getOne(req, res) {
 }
 
 async function listAdmin(req, res) {
-  const products = await Product.find().sort({ createdAt: -1 });
+  const products = await Product.find().sort({ sortOrder: -1, createdAt: -1 });
   res.json(products);
 }
 
@@ -73,4 +73,15 @@ async function remove(req, res) {
   res.json({ message: 'Montre supprimee' });
 }
 
-module.exports = { listPublic, getOne, listAdmin, create, update, remove };
+async function moveToTop(req, res) {
+  const product = await Product.findById(req.params.id);
+  if (!product) return res.status(404).json({ message: 'Montre introuvable' });
+
+  const highest = await Product.findOne().sort({ sortOrder: -1 });
+  product.sortOrder = (highest ? highest.sortOrder : 0) + 1;
+  await product.save();
+
+  res.json(product);
+}
+
+module.exports = { listPublic, getOne, listAdmin, create, update, remove, moveToTop };

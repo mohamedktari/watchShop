@@ -33,4 +33,8 @@ export class ProductService {
   delete(id: string): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`);
   }
+
+  moveToTop(id: string): Observable<Product> {
+    return this.http.patch<Product>(`${this.baseUrl}/${id}/move-to-top`, {});
+  }
 }

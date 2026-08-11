@@ -75,6 +75,8 @@
     "products": {
       "title": "ساعاتي",
       "add": "إضافة ساعة",
+      "moveToTop": "وضع في المقدمة",
+      "featured": "في المقدمة",
       "edit": "تعديل",
       "delete": "حذف",
       "confirmDelete": "هل تريد حذف هذه الساعة؟",

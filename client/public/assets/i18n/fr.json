@@ -75,6 +75,8 @@
     "products": {
       "title": "Mes montres",
       "add": "Ajouter une montre",
+      "moveToTop": "Mettre en premier",
+      "featured": "En premier",
       "edit": "Modifier",
       "delete": "Supprimer",
       "confirmDelete": "Supprimer cette montre ?",

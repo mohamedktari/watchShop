@@ -120,4 +120,8 @@ export class AdminProducts implements OnInit {
     if (!confirm(this.translate.instant('admin.products.confirmDelete'))) return;
     this.productService.delete(product._id).subscribe(() => this.load());
   }
+
+  moveToTop(product: Product): void {
+    this.productService.moveToTop(product._id).subscribe(() => this.load());
+  }
 }

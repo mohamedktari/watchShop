@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema(
     stock: { type: Number, default: 0, min: 0 },
     category: { type: String, default: '' },
     isActive: { type: Boolean, default: true },
+    sortOrder: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

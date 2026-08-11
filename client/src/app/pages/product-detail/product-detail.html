@@ -1,10 +1,10 @@
 @if (product(); as p) {
   <section class="mx-auto max-w-5xl animate-fade-in-up px-4 py-10">
-    <a routerLink="/" class="mb-6 inline-block text-sm font-medium text-brand-600 transition-colors hover:text-lime-600 hover:underline">
+    <a routerLink="/" class="mb-6 inline-block text-sm font-medium text-white drop-shadow transition-colors hover:text-lime-400 hover:underline">
       &larr; {{ 'product.back' | translate }}
     </a>
 
-    <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-10 rounded-2xl bg-white p-6 shadow-card sm:p-8 md:grid-cols-2">
       <div>
         <div class="aspect-square overflow-hidden rounded-2xl bg-brand-100">
           @if (p.images?.[activeImage()]) {

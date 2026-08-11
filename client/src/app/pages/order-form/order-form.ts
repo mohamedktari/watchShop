@@ -9,6 +9,7 @@ import { OrderService } from '../../core/services/order.service';
 import { LanguageService } from '../../core/services/language.service';
 import { Product } from '../../shared/models/product.model';
 import { TUNISIA_CITIES } from '../../shared/data/tunisia-cities';
+import { effectivePrice, hasDiscount } from '../../shared/utils/pricing';
 
 @Component({
   selector: 'app-order-form',
@@ -45,7 +46,10 @@ export class OrderForm implements OnInit {
     initialValue: this.form.controls.quantity.value,
   });
 
-  subtotal = computed(() => (this.product()?.price ?? 0) * (this.quantity() || 0));
+  subtotal = computed(() => {
+    const p = this.product();
+    return (p ? effectivePrice(p) : 0) * (this.quantity() || 0);
+  });
   total = computed(() => this.subtotal() + this.deliveryFee);
 
   cities = TUNISIA_CITIES;
@@ -73,6 +77,10 @@ export class OrderForm implements OnInit {
 
   name(p: Product): string {
     return this.lang.getCurrentLanguage() === 'ar' ? p.nameAr : p.nameFr;
+  }
+
+  hasDiscount(p: Product): boolean {
+    return hasDiscount(p);
   }
 
   submit(): void {

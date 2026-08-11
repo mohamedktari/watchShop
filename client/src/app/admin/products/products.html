@@ -25,7 +25,15 @@
         </div>
         <div class="flex flex-1 flex-col gap-1 p-4">
           <p class="font-semibold text-brand-900">{{ product.nameFr }} / {{ product.nameAr }}</p>
-          <p class="text-brand-600">{{ product.price }} TND &middot; stock: {{ product.stock }}</p>
+          <p class="text-brand-600">
+            @if (product.discountPrice != null && product.discountPrice < product.price) {
+              <span class="mr-1 text-gray-400 line-through">{{ product.price }} TND</span>
+              <span class="font-semibold text-violet-600">{{ product.discountPrice }} TND</span>
+            } @else {
+              {{ product.price }} TND
+            }
+            &middot; stock: {{ product.stock }}
+          </p>
           @if (!product.isActive) {
             <span class="w-fit rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-600">masque</span>
           }
@@ -81,11 +89,21 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.price' | translate }}</label>
             <input type="number" min="0" formControlName="price" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500" />
           </div>
+          <div>
+            <label class="mb-1 block text-sm font-medium text-gray-700">
+              {{ 'admin.products.discountPrice' | translate }}
+              <span class="font-normal text-gray-400">({{ 'order.optional' | translate }})</span>
+            </label>
+            <input type="number" min="0" formControlName="discountPrice" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.stock' | translate }}</label>
             <input type="number" min="0" formControlName="stock" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500" />

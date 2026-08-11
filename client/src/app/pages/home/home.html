@@ -25,7 +25,12 @@
           class="group flex origin-bottom animate-fade-in-up flex-col overflow-hidden rounded-2xl bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
           [style.animation-delay.ms]="i * 70"
         >
-          <a [routerLink]="['/produit', product._id]" class="block aspect-square overflow-hidden bg-brand-100">
+          <a [routerLink]="['/produit', product._id]" class="relative block aspect-square overflow-hidden bg-brand-100">
+            @if (hasDiscount(product)) {
+              <span class="absolute left-3 top-3 z-10 animate-pop-in rounded-full bg-violet-500 px-2.5 py-1 text-xs font-bold text-white shadow-md">
+                {{ 'product.promo' | translate }}
+              </span>
+            }
             @if (product.images?.[0]) {
               <img [src]="product.images[0]" [alt]="name(product)" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
             } @else {
@@ -36,7 +41,14 @@
             <a [routerLink]="['/produit', product._id]" class="font-semibold text-brand-900 transition-colors hover:text-lime-600 hover:underline">
               {{ name(product) }}
             </a>
-            <p class="text-lg font-bold text-brand-600">{{ product.price }} {{ 'common.tnd' | translate }}</p>
+            <p class="text-lg font-bold text-brand-600">
+              @if (hasDiscount(product)) {
+                <span class="mr-2 text-sm font-normal text-gray-400 line-through">{{ product.price }} {{ 'common.tnd' | translate }}</span>
+                <span class="text-violet-600">{{ product.discountPrice }} {{ 'common.tnd' | translate }}</span>
+              } @else {
+                {{ product.price }} {{ 'common.tnd' | translate }}
+              }
+            </p>
 
             @if (product.stock > 0) {
               <a

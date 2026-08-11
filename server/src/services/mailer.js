@@ -21,14 +21,16 @@ async function sendNewOrderEmail(order, product) {
   const transporter = getTransporter();
   const to = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.GMAIL_USER;
 
-  const subtotal = product.price * order.quantity;
+  const hasDiscount = product.discountPrice != null && product.discountPrice < product.price;
+  const unitPrice = hasDiscount ? product.discountPrice : product.price;
+  const subtotal = unitPrice * order.quantity;
   const total = subtotal + DELIVERY_FEE;
 
   const html = `
     <h2>Nouvelle commande recue</h2>
     <p><strong>Montre :</strong> ${product.nameFr}</p>
     <p><strong>Quantite :</strong> ${order.quantity}</p>
-    <p><strong>Prix unitaire :</strong> ${product.price} TND</p>
+    <p><strong>Prix unitaire :</strong> ${hasDiscount ? `<s>${product.price} TND</s> ${unitPrice} TND (promo)` : `${unitPrice} TND`}</p>
     <p><strong>Sous-total :</strong> ${subtotal} TND</p>
     <p><strong>Livraison :</strong> +${DELIVERY_FEE} TND</p>
     <p><strong>Total :</strong> ${total} TND</p>

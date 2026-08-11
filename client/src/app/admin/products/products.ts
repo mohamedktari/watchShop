@@ -29,6 +29,7 @@ export class AdminProducts implements OnInit {
     descriptionFr: [''],
     descriptionAr: [''],
     price: [0, [Validators.required, Validators.min(0)]],
+    discountPrice: [null as number | null, [Validators.min(0)]],
     stock: [0, [Validators.required, Validators.min(0)]],
     category: [''],
     isActive: [true],
@@ -52,7 +53,7 @@ export class AdminProducts implements OnInit {
   openCreate(): void {
     this.editingId.set(null);
     this.selectedFiles = [];
-    this.form.reset({ nameFr: '', nameAr: '', descriptionFr: '', descriptionAr: '', price: 0, stock: 0, category: '', isActive: true });
+    this.form.reset({ nameFr: '', nameAr: '', descriptionFr: '', descriptionAr: '', price: 0, discountPrice: null, stock: 0, category: '', isActive: true });
     this.showForm.set(true);
   }
 
@@ -65,6 +66,7 @@ export class AdminProducts implements OnInit {
       descriptionFr: product.descriptionFr,
       descriptionAr: product.descriptionAr,
       price: product.price,
+      discountPrice: product.discountPrice,
       stock: product.stock,
       category: product.category,
       isActive: product.isActive,
@@ -95,6 +97,7 @@ export class AdminProducts implements OnInit {
     formData.append('descriptionFr', value.descriptionFr || '');
     formData.append('descriptionAr', value.descriptionAr || '');
     formData.append('price', String(value.price));
+    formData.append('discountPrice', value.discountPrice != null ? String(value.discountPrice) : '');
     formData.append('stock', String(value.stock));
     formData.append('category', value.category || '');
     formData.append('isActive', String(value.isActive));

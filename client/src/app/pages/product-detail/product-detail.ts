@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ProductService } from '../../core/services/product.service';
 import { LanguageService } from '../../core/services/language.service';
 import { Product } from '../../shared/models/product.model';
+import { hasDiscount } from '../../shared/utils/pricing';
 
 @Component({
   selector: 'app-product-detail',
@@ -34,5 +35,9 @@ export class ProductDetail implements OnInit {
 
   description(p: Product): string {
     return this.lang.getCurrentLanguage() === 'ar' ? p.descriptionAr : p.descriptionFr;
+  }
+
+  hasDiscount(p: Product): boolean {
+    return hasDiscount(p);
   }
 }

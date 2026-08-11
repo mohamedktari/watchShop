@@ -22,7 +22,14 @@
         }
         <div>
           <p class="font-semibold text-brand-900">{{ name(p) }}</p>
-          <p class="text-brand-600">{{ p.price }} {{ 'common.tnd' | translate }}</p>
+          @if (hasDiscount(p)) {
+            <p>
+              <span class="mr-2 text-sm text-gray-400 line-through">{{ p.price }} {{ 'common.tnd' | translate }}</span>
+              <span class="font-semibold text-violet-600">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
+            </p>
+          } @else {
+            <p class="text-brand-600">{{ p.price }} {{ 'common.tnd' | translate }}</p>
+          }
         </div>
       </div>
 

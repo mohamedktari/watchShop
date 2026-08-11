@@ -15,7 +15,8 @@
     "price": "Prix",
     "stock": "En stock",
     "description": "Description",
-    "order": "Commander cette montre"
+    "order": "Commander cette montre",
+    "promo": "Promo"
   },
   "order": {
     "title": "Passer commande",
@@ -80,6 +81,7 @@
       "descriptionFr": "Description (francais)",
       "descriptionAr": "Description (arabe)",
       "price": "Prix (TND)",
+      "discountPrice": "Prix promo (TND)",
       "stock": "Stock",
       "category": "Categorie",
       "images": "Photos",

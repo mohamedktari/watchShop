@@ -5,6 +5,7 @@ export interface Product {
   descriptionFr: string;
   descriptionAr: string;
   price: number;
+  discountPrice: number | null;
   images: string[];
   stock: number;
   category: string;

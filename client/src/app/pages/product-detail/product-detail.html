@@ -33,7 +33,15 @@
 
       <div class="flex flex-col">
         <h1 class="text-2xl font-extrabold text-brand-900">{{ name(p) }}</h1>
-        <p class="mt-2 text-2xl font-bold text-brand-600">{{ p.price }} {{ 'common.tnd' | translate }}</p>
+        <p class="mt-2 flex items-center gap-3">
+          @if (hasDiscount(p)) {
+            <span class="animate-pop-in rounded-full bg-violet-500 px-2.5 py-1 text-xs font-bold text-white">{{ 'product.promo' | translate }}</span>
+            <span class="text-lg font-normal text-gray-400 line-through">{{ p.price }} {{ 'common.tnd' | translate }}</span>
+            <span class="text-2xl font-bold text-violet-600">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
+          } @else {
+            <span class="text-2xl font-bold text-brand-600">{{ p.price }} {{ 'common.tnd' | translate }}</span>
+          }
+        </p>
 
         @if (description(p)) {
           <div class="mt-6">

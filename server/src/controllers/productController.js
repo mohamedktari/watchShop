@@ -16,8 +16,14 @@ async function listAdmin(req, res) {
   res.json(products);
 }
 
+function parseDiscountPrice(value) {
+  if (value === undefined || value === null || value === '') return null;
+  const n = Number(value);
+  return Number.isNaN(n) ? null : n;
+}
+
 async function create(req, res) {
-  const { nameFr, nameAr, descriptionFr, descriptionAr, price, stock, category, isActive } = req.body;
+  const { nameFr, nameAr, descriptionFr, descriptionAr, price, discountPrice, stock, category, isActive } = req.body;
   if (!nameFr || !nameAr || price === undefined) {
     return res.status(400).json({ message: 'nameFr, nameAr et price sont requis' });
   }
@@ -30,6 +36,7 @@ async function create(req, res) {
     descriptionFr,
     descriptionAr,
     price,
+    discountPrice: parseDiscountPrice(discountPrice),
     stock,
     category,
     isActive: isActive === undefined ? true : isActive,
@@ -47,6 +54,9 @@ async function update(req, res) {
   fields.forEach((f) => {
     if (req.body[f] !== undefined) product[f] = req.body[f];
   });
+  if (req.body.discountPrice !== undefined) {
+    product.discountPrice = parseDiscountPrice(req.body.discountPrice);
+  }
 
   const newImages = (req.files || []).map((f) => f.path);
   if (newImages.length > 0) {

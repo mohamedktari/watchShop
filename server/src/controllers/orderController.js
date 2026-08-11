@@ -30,9 +30,15 @@ async function create(req, res) {
     age: age ? Number(age) : null,
   });
 
-  sendNewOrderEmail(order, product).catch((err) =>
-    console.error('Erreur envoi email de notification :', err.message)
-  );
+  // Awaited on purpose: in a serverless function, anything left running after the
+  // response is sent can get frozen/killed before it finishes, silently dropping
+  // the notification email. Awaiting guarantees each order's email fully sends
+  // (or fails loudly in logs) before this invocation ends.
+  try {
+    await sendNewOrderEmail(order, product);
+  } catch (err) {
+    console.error('Erreur envoi email de notification :', err.message);
+  }
 
   res.status(201).json({ message: 'Commande enregistree', order });
 }

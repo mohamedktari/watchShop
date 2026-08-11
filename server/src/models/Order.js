@@ -9,6 +9,8 @@ const orderSchema = new mongoose.Schema(
     telephone: { type: String, required: true, trim: true },
     ville: { type: String, required: true, trim: true },
     adresse: { type: String, required: true, trim: true },
+    genre: { type: String, enum: ['HOMME', 'FEMME', null], default: null },
+    age: { type: Number, min: 1, max: 120, default: null },
     statut: {
       type: String,
       enum: ['EN_ATTENTE', 'CONFIRMEE', 'ANNULEE'],

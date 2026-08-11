@@ -37,6 +37,8 @@ export class OrderForm implements OnInit {
     telephone: ['', [Validators.required, Validators.pattern(/^[0-9+\s]{6,20}$/)]],
     ville: ['', Validators.required],
     adresse: [{ value: '', disabled: true }, Validators.required],
+    genre: [''],
+    age: [null as number | null, [Validators.min(1), Validators.max(120)]],
   });
 
   private quantity = toSignal(this.form.controls.quantity.valueChanges, {
@@ -94,6 +96,8 @@ export class OrderForm implements OnInit {
         telephone: value.telephone!,
         ville: value.ville!,
         adresse: value.adresse!,
+        genre: value.genre ? (value.genre as 'HOMME' | 'FEMME') : null,
+        age: value.age ?? null,
       })
       .subscribe({
         next: () => {

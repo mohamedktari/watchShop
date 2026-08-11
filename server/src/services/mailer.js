@@ -37,6 +37,8 @@ async function sendNewOrderEmail(order, product) {
     <p><strong>Telephone :</strong> ${order.telephone}</p>
     <p><strong>Ville :</strong> ${order.ville}</p>
     <p><strong>Adresse :</strong> ${order.adresse}</p>
+    ${order.genre ? `<p><strong>Genre :</strong> ${order.genre === 'HOMME' ? 'Homme' : 'Femme'}</p>` : ''}
+    ${order.age ? `<p><strong>Age :</strong> ${order.age} ans</p>` : ''}
     <p><strong>Date :</strong> ${new Date(order.createdAt).toLocaleString('fr-FR')}</p>
   `;
 

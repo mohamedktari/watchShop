@@ -3,7 +3,7 @@ const Product = require('../models/Product');
 const { sendNewOrderEmail } = require('../services/mailer');
 
 async function create(req, res) {
-  const { productId, quantity, nom, prenom, telephone, ville, adresse } = req.body;
+  const { productId, quantity, nom, prenom, telephone, ville, adresse, genre, age } = req.body;
 
   if (!productId || !nom || !prenom || !telephone || !ville || !adresse) {
     return res.status(400).json({ message: 'productId, nom, prenom, telephone, ville et adresse sont requis' });
@@ -22,6 +22,8 @@ async function create(req, res) {
     telephone,
     ville,
     adresse,
+    genre: genre === 'HOMME' || genre === 'FEMME' ? genre : null,
+    age: age ? Number(age) : null,
   });
 
   sendNewOrderEmail(order, product).catch((err) =>

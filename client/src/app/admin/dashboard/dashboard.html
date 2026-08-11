@@ -12,6 +12,8 @@
           <th class="px-4 py-3">{{ 'admin.dashboard.product' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.quantity' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.client' | translate }}</th>
+          <th class="px-4 py-3">{{ 'admin.dashboard.genre' | translate }}</th>
+          <th class="px-4 py-3">{{ 'admin.dashboard.age' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.phone' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.city' | translate }}</th>
           <th class="px-4 py-3">{{ 'admin.dashboard.address' | translate }}</th>
@@ -25,6 +27,8 @@
             <td class="px-4 py-3 font-medium text-brand-900">{{ productName(order) }}</td>
             <td class="px-4 py-3">{{ order.quantity }}</td>
             <td class="px-4 py-3">{{ order.prenom }} {{ order.nom }}</td>
+            <td class="px-4 py-3">{{ order.genre ? ('order.' + (order.genre === 'HOMME' ? 'homme' : 'femme') | translate) : '-' }}</td>
+            <td class="px-4 py-3">{{ order.age ?? '-' }}</td>
             <td class="px-4 py-3" dir="ltr">{{ order.telephone }}</td>
             <td class="px-4 py-3">{{ order.ville }}</td>
             <td class="px-4 py-3">{{ order.adresse }}</td>

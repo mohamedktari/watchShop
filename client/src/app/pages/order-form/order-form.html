@@ -83,6 +83,55 @@
           </select>
         </div>
 
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label class="mb-1 block text-sm font-medium text-gray-700">
+              {{ 'order.genre' | translate }}
+              <span class="font-normal text-gray-400">({{ 'order.optional' | translate }})</span>
+            </label>
+            <div class="flex gap-2">
+              <button
+                type="button"
+                (click)="form.controls.genre.setValue(form.value.genre === 'HOMME' ? '' : 'HOMME')"
+                class="flex-1 transform-gpu rounded-lg border px-3 py-2 text-sm font-medium transition-all duration-200 active:scale-95"
+                [class.border-violet-500]="form.value.genre === 'HOMME'"
+                [class.bg-violet-50]="form.value.genre === 'HOMME'"
+                [class.text-violet-600]="form.value.genre === 'HOMME'"
+                [class.border-gray-300]="form.value.genre !== 'HOMME'"
+                [class.text-gray-600]="form.value.genre !== 'HOMME'"
+              >
+                {{ 'order.homme' | translate }}
+              </button>
+              <button
+                type="button"
+                (click)="form.controls.genre.setValue(form.value.genre === 'FEMME' ? '' : 'FEMME')"
+                class="flex-1 transform-gpu rounded-lg border px-3 py-2 text-sm font-medium transition-all duration-200 active:scale-95"
+                [class.border-violet-500]="form.value.genre === 'FEMME'"
+                [class.bg-violet-50]="form.value.genre === 'FEMME'"
+                [class.text-violet-600]="form.value.genre === 'FEMME'"
+                [class.border-gray-300]="form.value.genre !== 'FEMME'"
+                [class.text-gray-600]="form.value.genre !== 'FEMME'"
+              >
+                {{ 'order.femme' | translate }}
+              </button>
+            </div>
+          </div>
+          <div>
+            <label for="age-input" class="mb-1 block text-sm font-medium text-gray-700">
+              {{ 'order.age' | translate }}
+              <span class="font-normal text-gray-400">({{ 'order.optional' | translate }})</span>
+            </label>
+            <input
+              id="age-input"
+              type="number"
+              min="1"
+              max="120"
+              formControlName="age"
+              class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500"
+            />
+          </div>
+        </div>
+
         <div class="space-y-1 rounded-lg bg-brand-50 p-4 text-sm">
           <div class="flex justify-between text-gray-600">
             <span>{{ 'order.articlePrice' | translate }}</span>

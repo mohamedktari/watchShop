@@ -9,6 +9,10 @@ async function create(req, res) {
     return res.status(400).json({ message: 'productId, nom, prenom, telephone, ville et adresse sont requis' });
   }
 
+  if (!/^[0-9]{8}$/.test(telephone)) {
+    return res.status(400).json({ message: 'Le numero de telephone doit contenir exactement 8 chiffres' });
+  }
+
   const product = await Product.findById(productId);
   if (!product) {
     return res.status(404).json({ message: 'Montre introuvable' });

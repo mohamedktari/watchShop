@@ -54,7 +54,19 @@
 
         <div>
           <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.telephone' | translate }}</label>
-          <input type="tel" formControlName="telephone" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
+          <input
+            type="tel"
+            formControlName="telephone"
+            maxlength="8"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            (input)="onPhoneInput($event)"
+            class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500"
+            [class.border-red-400]="form.controls.telephone.touched && form.controls.telephone.invalid"
+          />
+          @if (form.controls.telephone.touched && form.controls.telephone.invalid) {
+            <p class="mt-1 animate-fade-in text-xs text-red-400">{{ 'order.telephoneError' | translate }}</p>
+          }
         </div>
 
         <div>

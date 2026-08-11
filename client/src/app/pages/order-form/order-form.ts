@@ -35,7 +35,7 @@ export class OrderForm implements OnInit {
     quantity: [1, [Validators.required, Validators.min(1)]],
     nom: ['', Validators.required],
     prenom: ['', Validators.required],
-    telephone: ['', [Validators.required, Validators.pattern(/^[0-9+\s]{6,20}$/)]],
+    telephone: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
     ville: ['', Validators.required],
     adresse: [{ value: '', disabled: true }, Validators.required],
     genre: [''],
@@ -77,6 +77,14 @@ export class OrderForm implements OnInit {
 
   name(p: Product): string {
     return this.lang.getCurrentLanguage() === 'ar' ? p.nameAr : p.nameFr;
+  }
+
+  onPhoneInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const digitsOnly = input.value.replace(/\D/g, '').slice(0, 8);
+    if (digitsOnly !== input.value) {
+      this.form.controls.telephone.setValue(digitsOnly);
+    }
   }
 
   hasDiscount(p: Product): boolean {

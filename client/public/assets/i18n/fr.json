@@ -26,6 +26,7 @@
     "nom": "Nom",
     "prenom": "Prenom",
     "telephone": "Numero de telephone",
+    "telephoneError": "Le numero doit contenir exactement 8 chiffres",
     "ville": "Ville",
     "chooseCity": "Choisir une ville",
     "adresse": "Adresse",

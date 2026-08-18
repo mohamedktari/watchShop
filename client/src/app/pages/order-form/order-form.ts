@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -31,15 +32,20 @@ export class OrderForm implements OnInit {
   errorMsg = signal(false);
 
   form = this.fb.group({
+    quantity: [1, [Validators.required, Validators.min(1)]],
     nom: ['', Validators.required],
     prenom: ['', Validators.required],
     telephone: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
     adresse: ['', Validators.required],
   });
 
+  private quantity = toSignal(this.form.controls.quantity.valueChanges, {
+    initialValue: this.form.controls.quantity.value,
+  });
+
   subtotal = computed(() => {
     const p = this.product();
-    return p ? effectivePrice(p) : 0;
+    return (p ? effectivePrice(p) : 0) * (this.quantity() || 0);
   });
   total = computed(() => this.subtotal() + this.deliveryFee);
 
@@ -80,7 +86,7 @@ export class OrderForm implements OnInit {
     this.orderService
       .create({
         productId: p._id,
-        quantity: 1,
+        quantity: value.quantity!,
         nom: value.nom!,
         prenom: value.prenom!,
         telephone: value.telephone!,

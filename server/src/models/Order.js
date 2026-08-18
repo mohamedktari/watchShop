@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema(
     nom: { type: String, required: true, trim: true },
     prenom: { type: String, required: true, trim: true },
     telephone: { type: String, required: true, trim: true },
-    ville: { type: String, required: true, trim: true },
+    ville: { type: String, trim: true, default: '' },
     adresse: { type: String, required: true, trim: true },
     genre: { type: String, enum: ['HOMME', 'FEMME', null], default: null },
     age: { type: Number, min: 1, max: 120, default: null },

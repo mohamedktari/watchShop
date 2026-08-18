@@ -1,5 +1,4 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -8,13 +7,13 @@ import { ProductService } from '../../core/services/product.service';
 import { OrderService } from '../../core/services/order.service';
 import { LanguageService } from '../../core/services/language.service';
 import { Product } from '../../shared/models/product.model';
-import { TUNISIA_CITIES } from '../../shared/data/tunisia-cities';
 import { effectivePrice, hasDiscount } from '../../shared/utils/pricing';
+import { CloudinaryQualityPipe } from '../../shared/pipes/cloudinary-quality.pipe';
 
 @Component({
   selector: 'app-order-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule, CloudinaryQualityPipe],
   templateUrl: './order-form.html',
 })
 export class OrderForm implements OnInit {
@@ -32,47 +31,22 @@ export class OrderForm implements OnInit {
   errorMsg = signal(false);
 
   form = this.fb.group({
-    quantity: [1, [Validators.required, Validators.min(1)]],
     nom: ['', Validators.required],
     prenom: ['', Validators.required],
     telephone: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
-    ville: ['', Validators.required],
-    adresse: [{ value: '', disabled: true }, Validators.required],
-    genre: [''],
-    age: [null as number | null, [Validators.min(1), Validators.max(120)]],
-  });
-
-  private quantity = toSignal(this.form.controls.quantity.valueChanges, {
-    initialValue: this.form.controls.quantity.value,
+    adresse: ['', Validators.required],
   });
 
   subtotal = computed(() => {
     const p = this.product();
-    return (p ? effectivePrice(p) : 0) * (this.quantity() || 0);
+    return p ? effectivePrice(p) : 0;
   });
   total = computed(() => this.subtotal() + this.deliveryFee);
-
-  cities = TUNISIA_CITIES;
-
-  private selectedCityName = toSignal(this.form.controls.ville.valueChanges, {
-    initialValue: this.form.controls.ville.value,
-  });
-
-  selectedCity = computed(() => this.cities.find((c) => c.city === this.selectedCityName()) ?? null);
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
     if (!productId) return;
     this.productService.getOne(productId).subscribe((product) => this.product.set(product));
-
-    this.form.controls.ville.valueChanges.subscribe((cityName) => {
-      this.form.controls.adresse.setValue('');
-      if (this.cities.some((c) => c.city === cityName)) {
-        this.form.controls.adresse.enable();
-      } else {
-        this.form.controls.adresse.disable();
-      }
-    });
   }
 
   name(p: Product): string {
@@ -106,14 +80,11 @@ export class OrderForm implements OnInit {
     this.orderService
       .create({
         productId: p._id,
-        quantity: value.quantity!,
+        quantity: 1,
         nom: value.nom!,
         prenom: value.prenom!,
         telephone: value.telephone!,
-        ville: value.ville!,
         adresse: value.adresse!,
-        genre: value.genre ? (value.genre as 'HOMME' | 'FEMME') : null,
-        age: value.age ?? null,
       })
       .subscribe({
         next: () => {

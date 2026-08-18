@@ -90,6 +90,7 @@
       "stock": "Stock",
       "category": "Categorie",
       "images": "Photos",
+      "removeImage": "Supprimer cette photo",
       "isActive": "Visible sur le site",
       "save": "Enregistrer",
       "cancel": "Annuler"

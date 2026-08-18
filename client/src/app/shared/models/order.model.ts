@@ -10,7 +10,7 @@ export interface Order {
   nom: string;
   prenom: string;
   telephone: string;
-  ville: string;
+  ville?: string;
   adresse: string;
   genre: Genre | null;
   age: number | null;
@@ -24,8 +24,5 @@ export interface NewOrderPayload {
   nom: string;
   prenom: string;
   telephone: string;
-  ville: string;
   adresse: string;
-  genre?: Genre | null;
-  age?: number | null;
 }

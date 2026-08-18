@@ -6,11 +6,12 @@ import { ProductService } from '../../core/services/product.service';
 import { LanguageService } from '../../core/services/language.service';
 import { Product } from '../../shared/models/product.model';
 import { hasDiscount } from '../../shared/utils/pricing';
+import { CloudinaryQualityPipe } from '../../shared/pipes/cloudinary-quality.pipe';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [CommonModule, RouterLink, TranslateModule, CloudinaryQualityPipe],
   templateUrl: './product-detail.html',
 })
 export class ProductDetail implements OnInit {

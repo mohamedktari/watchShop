@@ -90,6 +90,7 @@
       "stock": "المخزون",
       "category": "الفئة",
       "images": "الصور",
+      "removeImage": "حذف هذه الصورة",
       "isActive": "ظاهر في الموقع",
       "save": "حفظ",
       "cancel": "إلغاء"

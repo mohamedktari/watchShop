@@ -1,8 +1,10 @@
 import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
+import { CloudinaryQualityPipe } from '../../pipes/cloudinary-quality.pipe';
 
 @Component({
   selector: 'app-image-carousel',
   standalone: true,
+  imports: [CloudinaryQualityPipe],
   template: `
     <div
       class="relative h-full w-full select-none overflow-hidden"
@@ -11,7 +13,7 @@ import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, 
     >
       @for (img of images; track img; let i = $index) {
         <img
-          [src]="img"
+          [src]="img | cloudinaryQuality: 800"
           [alt]="alt"
           class="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
           [class.opacity-100]="i === current()"

@@ -20,7 +20,7 @@
       >
         <div class="relative aspect-video overflow-hidden bg-brand-100">
           @if (product.images?.[0]) {
-            <img [src]="product.images[0]" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <img [src]="product.images[0] | cloudinaryQuality: 600" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
           }
           @if (i !== 0) {
             <button
@@ -131,6 +131,26 @@
 
         <div>
           <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.images' | translate }}</label>
+
+          @if (existingImages().length > 0) {
+            <div class="mb-2 flex flex-wrap gap-2">
+              @for (img of existingImages(); track img) {
+                <div class="group relative h-16 w-16 overflow-hidden rounded-lg border border-gray-200">
+                  <img [src]="img | cloudinaryQuality: 150" class="h-full w-full object-cover" />
+                  <button
+                    type="button"
+                    (click)="removeExistingImage(img)"
+                    [attr.aria-label]="'admin.products.removeImage' | translate"
+                    [title]="'admin.products.removeImage' | translate"
+                    class="absolute right-0.5 top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs text-white transition-all duration-150 hover:scale-110 hover:bg-red-500"
+                  >
+                    &#10005;
+                  </button>
+                </div>
+              }
+            </div>
+          }
+
           <input type="file" multiple accept="image/*" (change)="onFilesSelected($event)" class="w-full text-sm" />
         </div>
 

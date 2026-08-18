@@ -1,4 +1,26 @@
 const Product = require('../models/Product');
+const { cloudinary } = require('../services/cloudinary');
+
+// Cloudinary URLs look like https://res.cloudinary.com/<cloud>/image/upload/v123/watchshop/products/abc.jpg
+// the public_id needed to delete the asset is the folder+filename in between, without the version or extension.
+function extractPublicId(url) {
+  const match = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-zA-Z0-9]+$/);
+  return match ? match[1] : null;
+}
+
+async function deleteCloudinaryImages(urls) {
+  await Promise.all(
+    urls.map(async (url) => {
+      const publicId = extractPublicId(url);
+      if (!publicId) return;
+      try {
+        await cloudinary.uploader.destroy(publicId);
+      } catch (err) {
+        console.error('Erreur suppression image Cloudinary :', err.message);
+      }
+    })
+  );
+}
 
 async function listPublic(req, res) {
   const products = await Product.find({ isActive: true }).sort({ sortOrder: -1, createdAt: -1 });
@@ -59,7 +81,20 @@ async function update(req, res) {
   }
 
   const newImages = (req.files || []).map((f) => f.path);
-  if (newImages.length > 0) {
+
+  if (req.body.existingImages !== undefined) {
+    let keptImages;
+    try {
+      keptImages = JSON.parse(req.body.existingImages);
+    } catch {
+      keptImages = product.images;
+    }
+    const removedImages = product.images.filter((url) => !keptImages.includes(url));
+    if (removedImages.length > 0) {
+      await deleteCloudinaryImages(removedImages);
+    }
+    product.images = keptImages.concat(newImages);
+  } else if (newImages.length > 0) {
     product.images = product.images.concat(newImages);
   }
 

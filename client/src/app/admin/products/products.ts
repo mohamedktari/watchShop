@@ -4,11 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../shared/models/product.model';
+import { CloudinaryQualityPipe } from '../../shared/pipes/cloudinary-quality.pipe';
 
 @Component({
   selector: 'app-admin-products',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CloudinaryQualityPipe],
   templateUrl: './products.html',
 })
 export class AdminProducts implements OnInit {
@@ -22,6 +23,7 @@ export class AdminProducts implements OnInit {
   editingId = signal<string | null>(null);
   saving = signal(false);
   selectedFiles: File[] = [];
+  existingImages = signal<string[]>([]);
 
   form = this.fb.group({
     nameFr: ['', Validators.required],
@@ -53,6 +55,7 @@ export class AdminProducts implements OnInit {
   openCreate(): void {
     this.editingId.set(null);
     this.selectedFiles = [];
+    this.existingImages.set([]);
     this.form.reset({ nameFr: '', nameAr: '', descriptionFr: '', descriptionAr: '', price: 0, discountPrice: null, stock: 0, category: '', isActive: true });
     this.showForm.set(true);
   }
@@ -60,6 +63,7 @@ export class AdminProducts implements OnInit {
   openEdit(product: Product): void {
     this.editingId.set(product._id);
     this.selectedFiles = [];
+    this.existingImages.set([...product.images]);
     this.form.reset({
       nameFr: product.nameFr,
       nameAr: product.nameAr,
@@ -83,6 +87,10 @@ export class AdminProducts implements OnInit {
     this.selectedFiles = input.files ? Array.from(input.files) : [];
   }
 
+  removeExistingImage(url: string): void {
+    this.existingImages.set(this.existingImages().filter((img) => img !== url));
+  }
+
   save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -104,6 +112,9 @@ export class AdminProducts implements OnInit {
     this.selectedFiles.forEach((file) => formData.append('images', file));
 
     const id = this.editingId();
+    if (id) {
+      formData.append('existingImages', JSON.stringify(this.existingImages()));
+    }
     const request = id ? this.productService.update(id, formData) : this.productService.create(formData);
 
     request.subscribe({

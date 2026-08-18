@@ -5,8 +5,8 @@ const { sendNewOrderEmail } = require('../services/mailer');
 async function create(req, res) {
   const { productId, quantity, nom, prenom, telephone, ville, adresse, genre, age } = req.body;
 
-  if (!productId || !nom || !prenom || !telephone || !ville || !adresse) {
-    return res.status(400).json({ message: 'productId, nom, prenom, telephone, ville et adresse sont requis' });
+  if (!productId || !nom || !prenom || !telephone || !adresse) {
+    return res.status(400).json({ message: 'productId, nom, prenom, telephone et adresse sont requis' });
   }
 
   if (!/^[0-9]{8}$/.test(telephone)) {

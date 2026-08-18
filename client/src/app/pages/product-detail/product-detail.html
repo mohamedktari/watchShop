@@ -8,7 +8,7 @@
       <div>
         <div class="aspect-square overflow-hidden rounded-2xl bg-brand-100">
           @if (p.images?.[activeImage()]) {
-            <img [src]="p.images[activeImage()]" [alt]="name(p)" class="h-full w-full animate-fade-in object-cover" />
+            <img [src]="p.images[activeImage()] | cloudinaryQuality: 1200" [alt]="name(p)" class="h-full w-full animate-fade-in object-cover" />
           } @else {
             <div class="flex h-full w-full items-center justify-center text-brand-400">Tivlo</div>
           }
@@ -24,7 +24,7 @@
                 [class.border-violet-500]="activeImage() === i"
                 [class.border-transparent]="activeImage() !== i"
               >
-                <img [src]="img" class="h-full w-full object-cover" />
+                <img [src]="img | cloudinaryQuality: 150" class="h-full w-full object-cover" />
               </button>
             }
           </div>

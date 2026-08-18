@@ -18,7 +18,7 @@
     <div class="animate-fade-in-up rounded-2xl bg-brand-600 p-6 shadow-card sm:p-8">
       <div class="mb-6 flex items-center gap-4 border-b border-white/10 pb-6">
         @if (p.images?.[0]) {
-          <img [src]="p.images[0]" [alt]="name(p)" class="h-16 w-16 rounded-lg object-cover" />
+          <img [src]="p.images[0] | cloudinaryQuality: 150" [alt]="name(p)" class="h-16 w-16 rounded-lg object-cover" />
         }
         <div>
           <p class="font-semibold text-white">{{ name(p) }}</p>
@@ -36,11 +36,6 @@
       <h1 class="font-display mb-4 text-xl font-bold text-white">{{ 'order.title' | translate }}</h1>
 
       <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
-        <div>
-          <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.quantity' | translate }}</label>
-          <input type="number" min="1" formControlName="quantity" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
-        </div>
-
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.prenom' | translate }}</label>
@@ -70,85 +65,13 @@
         </div>
 
         <div>
-          <label for="ville-select" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.ville' | translate }}</label>
-          <select id="ville-select" formControlName="ville" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500">
-            <option value="" disabled>{{ 'order.chooseCity' | translate }}</option>
-            @for (c of cities; track c.id) {
-              <option [value]="c.city">{{ c.city }}</option>
-            }
-          </select>
-        </div>
-
-        <div>
-          <label for="adresse-select" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.adresse' | translate }}</label>
-          <select
-            id="adresse-select"
+          <label for="adresse-input" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.adresse' | translate }}</label>
+          <input
+            id="adresse-input"
+            type="text"
             formControlName="adresse"
-            class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500 disabled:bg-gray-100 disabled:text-gray-400"
-          >
-            <option value="" disabled>{{ 'order.chooseAddress' | translate }}</option>
-            @if (selectedCity(); as city) {
-              <optgroup [label]="'order.neighborhoods' | translate">
-                @for (n of city.neighborhoods; track n) {
-                  <option [value]="n">{{ n }}</option>
-                }
-              </optgroup>
-              <optgroup [label]="'order.streets' | translate">
-                @for (s of city.mainStreets; track s) {
-                  <option [value]="s">{{ s }}</option>
-                }
-              </optgroup>
-            }
-          </select>
-        </div>
-
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label class="mb-1 block text-sm font-medium text-gray-200">
-              {{ 'order.genre' | translate }}
-              <span class="font-normal text-gray-400">({{ 'order.optional' | translate }})</span>
-            </label>
-            <div class="flex gap-2">
-              <button
-                type="button"
-                (click)="form.controls.genre.setValue(form.value.genre === 'HOMME' ? '' : 'HOMME')"
-                class="flex-1 transform-gpu rounded-lg border px-3 py-2 text-sm font-medium transition-all duration-200 active:scale-95"
-                [class.border-violet-500]="form.value.genre === 'HOMME'"
-                [class.bg-violet-50]="form.value.genre === 'HOMME'"
-                [class.text-violet-600]="form.value.genre === 'HOMME'"
-                [class.border-gray-300]="form.value.genre !== 'HOMME'"
-                [class.text-gray-300]="form.value.genre !== 'HOMME'"
-              >
-                {{ 'order.homme' | translate }}
-              </button>
-              <button
-                type="button"
-                (click)="form.controls.genre.setValue(form.value.genre === 'FEMME' ? '' : 'FEMME')"
-                class="flex-1 transform-gpu rounded-lg border px-3 py-2 text-sm font-medium transition-all duration-200 active:scale-95"
-                [class.border-violet-500]="form.value.genre === 'FEMME'"
-                [class.bg-violet-50]="form.value.genre === 'FEMME'"
-                [class.text-violet-600]="form.value.genre === 'FEMME'"
-                [class.border-gray-300]="form.value.genre !== 'FEMME'"
-                [class.text-gray-300]="form.value.genre !== 'FEMME'"
-              >
-                {{ 'order.femme' | translate }}
-              </button>
-            </div>
-          </div>
-          <div>
-            <label for="age-input" class="mb-1 block text-sm font-medium text-gray-200">
-              {{ 'order.age' | translate }}
-              <span class="font-normal text-gray-400">({{ 'order.optional' | translate }})</span>
-            </label>
-            <input
-              id="age-input"
-              type="number"
-              min="1"
-              max="120"
-              formControlName="age"
-              class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500"
-            />
-          </div>
+            class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500"
+          />
         </div>
 
         <div class="space-y-1 rounded-lg bg-black/20 p-4 text-sm">

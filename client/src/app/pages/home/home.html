@@ -1,11 +1,168 @@
-<section class="flex flex-col items-center justify-center px-4 py-16 text-center text-white">
-  <h1 class="font-display animate-fade-in-up text-4xl font-extrabold drop-shadow-lg md:text-5xl">{{ 'home.title' | translate }}</h1>
-  <p class="mt-3 animate-fade-in-up text-lg text-brand-100 drop-shadow">{{ 'home.subtitle' | translate }}</p>
+<!-- 01 — HERO -->
+<section class="relative flex min-h-[85vh] flex-col items-center justify-center px-4 py-24 text-center text-white">
+  <span class="animate-fade-in-up text-xs font-semibold uppercase tracking-[0.3em] text-lime-400">Tivlo</span>
+  <h1 class="font-display mt-4 max-w-3xl animate-fade-in-up text-5xl font-extrabold drop-shadow-lg md:text-7xl">
+    {{ 'hero.title' | translate }}
+  </h1>
+  <p class="mt-5 max-w-xl animate-fade-in-up text-lg text-brand-100 drop-shadow [animation-delay:100ms]">
+    {{ 'hero.subtitle' | translate }}
+  </p>
+  <div class="mt-9 flex animate-fade-in-up flex-wrap items-center justify-center gap-4 [animation-delay:180ms]">
+    <a
+      href="#catalogue"
+      class="transform-gpu rounded-full bg-lime-500 px-8 py-3.5 font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.03] hover:bg-lime-600 hover:shadow-md active:scale-95"
+    >
+      {{ 'hero.ctaPrimary' | translate }}
+    </a>
+    <a
+      href="#collections"
+      class="rounded-full border border-white/30 px-8 py-3.5 font-semibold text-white transition-colors duration-200 hover:border-lime-400 hover:text-lime-400"
+    >
+      {{ 'hero.ctaSecondary' | translate }}
+    </a>
+  </div>
+
+  <a href="#brand" class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-fade-in text-white/70 sm:block" aria-label="Scroll" title="Scroll">
+    <svg viewBox="0 0 24 24" class="h-6 w-6 animate-bounce" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m0 0l-6-6m6 6l6-6" />
+    </svg>
+  </a>
 </section>
 
-<section class="mx-auto max-w-6xl px-4 pb-10">
-  @if (!loading() && categories().length > 0) {
-    <div class="mb-6 flex animate-fade-in-up flex-wrap justify-center gap-2">
+<!-- 02 — BRAND INTRODUCTION -->
+<section id="brand" class="mx-auto max-w-2xl px-4 py-16 text-center text-white" appReveal>
+  <p class="font-display text-2xl font-semibold leading-snug md:text-3xl">{{ 'brand.statement' | translate }}</p>
+</section>
+
+<!-- 03 — SIGNATURE WATCH -->
+@if (!loading() && signatureProduct(); as sp) {
+  <section class="mx-auto max-w-6xl px-4 py-10" appReveal>
+    <div class="grid grid-cols-1 items-center gap-10 overflow-hidden rounded-3xl bg-brand-600 shadow-card md:grid-cols-2">
+      <a [routerLink]="['/produit', sp._id]" class="relative block aspect-square overflow-hidden bg-brand-100 md:aspect-auto md:h-full">
+        @if (sp.images[0]) {
+          <img
+            [src]="sp.images[0] | cloudinaryQuality: 1000"
+            [alt]="name(sp)"
+            [title]="name(sp)"
+            class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+          />
+        }
+      </a>
+      <div class="p-8 md:p-12">
+        <span class="text-xs font-semibold uppercase tracking-[0.3em] text-lime-400">{{ 'signature.eyebrow' | translate }}</span>
+        <h2 class="font-display mt-3 text-3xl font-extrabold text-white md:text-4xl">{{ name(sp) }}</h2>
+        @if (description(sp)) {
+          <p class="mt-4 whitespace-pre-line text-gray-300">{{ description(sp) }}</p>
+        }
+        <div class="mt-6 flex items-baseline gap-3">
+          @if (hasDiscount(sp)) {
+            <span class="text-base text-gray-400 line-through">{{ sp.price }} {{ 'common.tnd' | translate }}</span>
+            <span class="font-display text-3xl font-bold text-violet-400">{{ sp.discountPrice }} {{ 'common.tnd' | translate }}</span>
+          } @else {
+            <span class="font-display text-3xl font-bold text-brand-100">{{ sp.price }} {{ 'common.tnd' | translate }}</span>
+          }
+        </div>
+        <a
+          [routerLink]="['/commander', sp._id]"
+          class="mt-8 inline-block transform-gpu rounded-full bg-lime-500 px-8 py-3.5 font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.03] hover:bg-lime-600 hover:shadow-md active:scale-95"
+        >
+          {{ 'signature.cta' | translate }}
+        </a>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- 04 — COLLECTIONS -->
+@if (!loading() && collections().length > 1) {
+  <section id="collections" class="mx-auto max-w-6xl px-4 py-16" appReveal>
+    <div class="mb-8 text-center">
+      <h2 class="font-display text-3xl font-extrabold text-white">{{ 'collections.title' | translate }}</h2>
+      <p class="mt-2 text-brand-100">{{ 'collections.subtitle' | translate }}</p>
+    </div>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      @for (c of collections(); track c.category) {
+        <button
+          type="button"
+          (click)="selectCollection(c.category)"
+          class="group relative aspect-[4/5] transform-gpu overflow-hidden rounded-2xl shadow-card transition-transform duration-300 hover:-translate-y-1"
+        >
+          @if (c.product.images[0]) {
+            <img
+              [src]="c.product.images[0] | cloudinaryQuality: 500"
+              [alt]="c.category"
+              [title]="c.category"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          }
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+          <span class="font-display absolute bottom-4 left-0 right-0 text-center text-lg font-bold text-white">{{ c.category }}</span>
+        </button>
+      }
+    </div>
+  </section>
+}
+
+<!-- 05 — CATALOGUE -->
+<section id="catalogue" class="mx-auto max-w-6xl px-4 pb-10 pt-6" appReveal>
+  <div class="mb-8 text-center">
+    <h2 class="font-display text-3xl font-extrabold text-white">{{ 'catalogue.title' | translate }}</h2>
+    <p class="mt-2 text-brand-100">{{ 'catalogue.subtitle' | translate }}</p>
+  </div>
+
+  @if (favoritesOnly()) {
+    <div class="mb-6 flex animate-fade-in items-center justify-center gap-3 rounded-full bg-black/20 px-4 py-2 text-sm text-white">
+      <span>{{ 'catalogue.favoritesActive' | translate }}</span>
+      <button type="button" (click)="clearFavoritesFilter()" class="font-semibold text-lime-400 hover:underline">
+        {{ 'catalogue.showAll' | translate }}
+      </button>
+    </div>
+  }
+
+  @if (!loading() && products().length > 0) {
+    <div class="mb-6 flex flex-col gap-4 rounded-2xl bg-black/20 p-4 backdrop-blur-sm sm:flex-row sm:flex-wrap sm:items-center">
+      <label for="catalogue-search" class="sr-only">{{ 'catalogue.searchPlaceholder' | translate }}</label>
+      <input
+        id="catalogue-search"
+        type="search"
+        [value]="search()"
+        (input)="onSearchInput($event)"
+        [placeholder]="'catalogue.searchPlaceholder' | translate"
+        class="w-full rounded-full border-white/20 bg-white/5 text-white placeholder-gray-400 focus:border-lime-400 focus:ring-lime-400 sm:w-56"
+      />
+
+      <label for="catalogue-sort" class="sr-only">{{ 'catalogue.sortDefault' | translate }}</label>
+      <select
+        id="catalogue-sort"
+        [value]="sort()"
+        (change)="onSortChange($event)"
+        class="w-full rounded-full border-white/20 bg-white/5 text-white focus:border-lime-400 focus:ring-lime-400 sm:w-auto"
+      >
+        <option value="default" class="text-brand-900">{{ 'catalogue.sortDefault' | translate }}</option>
+        <option value="priceAsc" class="text-brand-900">{{ 'catalogue.sortPriceAsc' | translate }}</option>
+        <option value="priceDesc" class="text-brand-900">{{ 'catalogue.sortPriceDesc' | translate }}</option>
+        <option value="newest" class="text-brand-900">{{ 'catalogue.sortNewest' | translate }}</option>
+      </select>
+
+      @if (priceCeiling() > 0) {
+        <label class="flex w-full items-center gap-2 text-sm text-brand-100 sm:w-56">
+          <span class="shrink-0">{{ 'catalogue.priceFilter' | translate }}</span>
+          <input
+            type="range"
+            min="0"
+            [max]="priceCeiling()"
+            [value]="maxPrice() ?? priceCeiling()"
+            (input)="onMaxPriceInput($event)"
+            class="w-full accent-lime-500"
+          />
+        </label>
+        @if (maxPrice() != null) {
+          <span class="text-sm text-lime-400">&le; {{ maxPrice() }} {{ 'common.tnd' | translate }}</span>
+        }
+      }
+    </div>
+
+    <div class="mb-6 flex flex-wrap justify-center gap-2">
       <button
         type="button"
         (click)="setCategory('')"
@@ -37,6 +194,10 @@
         </button>
       }
     </div>
+
+    <p class="mb-4 text-center text-sm text-brand-100/70">
+      {{ filteredProducts().length }} {{ 'catalogue.resultsCount' | translate }}
+    </p>
   }
 
   @if (loading()) {
@@ -48,63 +209,111 @@
   } @else if (products().length === 0) {
     <p class="animate-fade-in text-center text-white drop-shadow">{{ 'home.noProducts' | translate }}</p>
   } @else if (filteredProducts().length === 0) {
-    <p class="animate-fade-in text-center text-white drop-shadow">{{ 'home.noProductsInCategory' | translate }}</p>
+    <div class="animate-fade-in text-center text-white drop-shadow">
+      <p>{{ 'catalogue.noResults' | translate }}</p>
+      <button type="button" (click)="resetFilters()" class="mt-3 font-semibold text-lime-400 hover:underline">
+        {{ 'catalogue.resetFilters' | translate }}
+      </button>
+    </div>
   } @else {
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       @for (product of filteredProducts(); track product._id; let i = $index) {
-        <div
-          class="group flex origin-bottom animate-fade-in-up flex-col overflow-hidden rounded-2xl bg-brand-600 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
-          [style.animation-delay.ms]="i * 70"
-        >
-          <a [routerLink]="['/produit', product._id]" class="relative block aspect-square overflow-hidden bg-brand-100">
-            @if (hasDiscount(product)) {
-              <span class="absolute left-3 top-3 z-10 animate-pop-in rounded-full bg-violet-500 px-2.5 py-1 text-xs font-bold text-white shadow-md">
-                {{ 'product.promo' | translate }}
-              </span>
-            }
-            @if (product.category) {
-              <span class="absolute right-3 top-3 z-10 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
-                {{ product.category }}
-              </span>
-            }
-            @if (product.images?.length) {
-              <app-image-carousel
-                [images]="product.images"
-                [alt]="name(product)"
-                class="block h-full w-full transition-transform duration-500 group-hover:scale-105"
-              />
-            } @else {
-              <div class="flex h-full w-full items-center justify-center text-brand-400">Tivlo</div>
-            }
-          </a>
-          <div class="flex flex-1 flex-col gap-2 p-4">
-            <a [routerLink]="['/produit', product._id]" class="font-semibold text-white transition-colors hover:text-lime-400 hover:underline">
-              {{ name(product) }}
-            </a>
-            <p class="text-lg font-bold text-brand-100">
-              @if (hasDiscount(product)) {
-                <span class="mr-2 text-sm font-normal text-gray-400 line-through">{{ product.price }} {{ 'common.tnd' | translate }}</span>
-                <span class="text-violet-400">{{ product.discountPrice }} {{ 'common.tnd' | translate }}</span>
-              } @else {
-                {{ product.price }} {{ 'common.tnd' | translate }}
-              }
-            </p>
-
-            @if (product.stock > 0) {
-              <a
-                [routerLink]="['/commander', product._id]"
-                class="mt-auto transform-gpu rounded-full bg-lime-500 px-4 py-2 text-center font-medium text-brand-900 transition-all duration-200 hover:scale-[1.03] hover:bg-lime-600 hover:shadow-md active:scale-95"
-              >
-                {{ 'home.order' | translate }}
-              </a>
-            } @else {
-              <span class="mt-auto rounded-full bg-gray-200 px-4 py-2 text-center font-medium text-gray-500">
-                {{ 'home.outOfStock' | translate }}
-              </span>
-            }
-          </div>
+        <div class="animate-fade-in-up" [style.animation-delay.ms]="i * 70 < 500 ? i * 70 : 0">
+          <app-product-card [product]="product" />
         </div>
       }
     </div>
   }
+</section>
+
+<!-- 06 — WHY CHOOSE US -->
+<section class="mx-auto max-w-6xl px-4 py-16" appReveal>
+  <h2 class="font-display text-center text-3xl font-extrabold text-white">{{ 'trust.title' | translate }}</h2>
+  <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="rounded-2xl bg-brand-600 p-6 text-center shadow-card">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lime-500/10 text-lime-400">
+        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 8.25v10.5a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5V8.25M2.25 8.25l1.5-3.75a1.5 1.5 0 011.4-.94h13.7a1.5 1.5 0 011.4.94l1.5 3.75M9 15h6" />
+        </svg>
+      </div>
+      <h3 class="font-display mt-4 font-bold text-white">{{ 'trust.paymentTitle' | translate }}</h3>
+      <p class="mt-2 text-sm text-gray-300">{{ 'trust.paymentDesc' | translate }}</p>
+    </div>
+    <div class="rounded-2xl bg-brand-600 p-6 text-center shadow-card">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lime-500/10 text-lime-400">
+        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.833H14.25M16.5 18.75h-2.25m0-11.25h5.25l3 3.75v6.75c0 .414-.336.75-.75.75h-1.5m-6-11.25v11.25m0 0h-6" />
+        </svg>
+      </div>
+      <h3 class="font-display mt-4 font-bold text-white">{{ 'trust.confirmTitle' | translate }}</h3>
+      <p class="mt-2 text-sm text-gray-300">{{ 'trust.confirmDesc' | translate }}</p>
+    </div>
+    <div class="rounded-2xl bg-brand-600 p-6 text-center shadow-card">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lime-500/10 text-lime-400">
+        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+        </svg>
+      </div>
+      <h3 class="font-display mt-4 font-bold text-white">{{ 'trust.qualityTitle' | translate }}</h3>
+      <p class="mt-2 text-sm text-gray-300">{{ 'trust.qualityDesc' | translate }}</p>
+    </div>
+    <div class="rounded-2xl bg-brand-600 p-6 text-center shadow-card">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lime-500/10 text-lime-400">
+        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+        </svg>
+      </div>
+      <h3 class="font-display mt-4 font-bold text-white">{{ 'trust.simplicityTitle' | translate }}</h3>
+      <p class="mt-2 text-sm text-gray-300">{{ 'trust.simplicityDesc' | translate }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 — EDITORIAL -->
+@if (!loading() && editorialProducts().length > 0) {
+  <section class="mx-auto max-w-6xl px-4 py-16" appReveal>
+    <div class="mb-8 text-center">
+      <h2 class="font-display text-3xl font-extrabold text-white">{{ 'editorial.title' | translate }}</h2>
+      <p class="mt-2 text-brand-100">{{ 'editorial.subtitle' | translate }}</p>
+    </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      @for (p of editorialProducts(); track p._id; let i = $index) {
+        <a
+          [routerLink]="['/produit', p._id]"
+          class="group relative block overflow-hidden rounded-2xl shadow-card"
+          [class.sm:col-span-2]="i === 0"
+          [class]="i === 0 ? 'aspect-[16/10]' : 'aspect-square'"
+        >
+          @if (p.images[0]) {
+            <img
+              [src]="p.images[0] | cloudinaryQuality: 900"
+              [alt]="name(p)"
+              [title]="name(p)"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+          }
+          <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/0 to-transparent p-5">
+            <span class="font-display font-bold text-white">{{ name(p) }}</span>
+            @if (hasDiscount(p)) {
+              <span class="text-sm text-violet-300">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
+            } @else {
+              <span class="text-sm text-brand-100">{{ p.price }} {{ 'common.tnd' | translate }}</span>
+            }
+          </div>
+        </a>
+      }
+    </div>
+  </section>
+}
+
+<!-- FINAL CTA -->
+<section class="mx-auto max-w-4xl px-4 py-20 text-center" appReveal>
+  <h2 class="font-display text-3xl font-extrabold text-white md:text-4xl">{{ 'finalCta.title' | translate }}</h2>
+  <p class="mt-3 text-brand-100">{{ 'finalCta.subtitle' | translate }}</p>
+  <a
+    href="#catalogue"
+    class="mt-8 inline-block transform-gpu rounded-full bg-lime-500 px-10 py-4 font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.03] hover:bg-lime-600 hover:shadow-md active:scale-95"
+  >
+    {{ 'finalCta.cta' | translate }}
+  </a>
 </section>

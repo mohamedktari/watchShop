@@ -1,16 +1,74 @@
 {
   "nav": {
     "home": "Accueil",
-    "admin": "Espace admin"
+    "admin": "Espace admin",
+    "shop": "Boutique",
+    "collections": "Collections",
+    "wishlist": "Favoris"
+  },
+  "hero": {
+    "title": "Le temps, redefini.",
+    "subtitle": "Des montres pensees pour sublimer chaque instant.",
+    "ctaPrimary": "Decouvrir la collection",
+    "ctaSecondary": "Voir les collections"
+  },
+  "brand": {
+    "statement": "Chez Tivlo, chaque montre est choisie avec exigence pour son design et sa qualite, pour vous accompagner au quotidien avec elegance."
+  },
+  "signature": {
+    "eyebrow": "La piece signature",
+    "cta": "Je la veux"
+  },
+  "collections": {
+    "title": "Nos collections",
+    "subtitle": "Un style pour chaque moment."
+  },
+  "catalogue": {
+    "title": "La collection complete",
+    "subtitle": "Trouvez la montre qui vous ressemble.",
+    "searchPlaceholder": "Rechercher une montre...",
+    "sortDefault": "Tri : mis en avant",
+    "sortPriceAsc": "Prix croissant",
+    "sortPriceDesc": "Prix decroissant",
+    "sortNewest": "Nouveautes",
+    "priceFilter": "Prix max",
+    "resultsCount": "montre(s)",
+    "favoritesActive": "Affichage de vos favoris",
+    "showAll": "Voir tout le catalogue",
+    "noResults": "Aucune montre ne correspond a votre recherche",
+    "resetFilters": "Reinitialiser les filtres"
+  },
+  "trust": {
+    "title": "Pourquoi commander chez Tivlo",
+    "paymentTitle": "Paiement a la livraison",
+    "paymentDesc": "Aucun paiement en ligne. Vous payez a la reception de votre montre.",
+    "confirmTitle": "Confirmation rapide",
+    "confirmDesc": "Nous vous appelons rapidement apres votre commande pour confirmer la livraison.",
+    "qualityTitle": "Selection soignee",
+    "qualityDesc": "Chaque montre est choisie avec attention pour son design et sa qualite.",
+    "simplicityTitle": "Commande simple",
+    "simplicityDesc": "Pas de compte a creer. Quelques champs suffisent pour commander."
+  },
+  "editorial": {
+    "title": "L'art du detail",
+    "subtitle": "Chaque montre raconte une histoire."
+  },
+  "finalCta": {
+    "title": "Trouvez votre prochaine montre",
+    "subtitle": "Une piece qui vous ressemble vous attend.",
+    "cta": "Explorer la collection"
+  },
+  "footer": {
+    "tagline": "Des montres pensees pour sublimer chaque instant, livrees partout en Tunisie.",
+    "shop": "Boutique",
+    "catalogue": "Catalogue",
+    "why": "Pourquoi nous"
   },
   "home": {
-    "title": "Nos montres",
-    "subtitle": "Decouvrez notre collection",
     "order": "Commander",
     "outOfStock": "Rupture de stock",
     "noProducts": "Aucune montre disponible pour le moment",
-    "allCategories": "Toutes",
-    "noProductsInCategory": "Aucune montre dans cette categorie"
+    "allCategories": "Toutes"
   },
   "product": {
     "back": "Retour au catalogue",
@@ -18,7 +76,12 @@
     "stock": "En stock",
     "description": "Description",
     "order": "Commander cette montre",
-    "promo": "Promo"
+    "promo": "Promo",
+    "quickView": "Apercu rapide",
+    "wishlistAdd": "Ajouter aux favoris",
+    "wishlistRemove": "Retirer des favoris",
+    "viewDetails": "Voir la fiche complete",
+    "relatedTitle": "Vous aimerez aussi"
   },
   "order": {
     "title": "Passer commande",
@@ -43,9 +106,11 @@
     "total": "Total",
     "submit": "Confirmer la commande",
     "submitting": "Envoi en cours...",
-    "success": "Votre commande a ete envoyee avec succes ! Nous vous contacterons bientot.",
+    "confirmedTitle": "Commande confirmee !",
+    "orderNumber": "N° de commande",
+    "success": "Merci pour votre commande. Nous allons vous contacter prochainement pour confirmer votre livraison.",
     "error": "Une erreur est survenue. Veuillez reessayer.",
-    "backHome": "Retour a l'accueil"
+    "backHome": "Continuer mes achats"
   },
   "admin": {
     "login": {

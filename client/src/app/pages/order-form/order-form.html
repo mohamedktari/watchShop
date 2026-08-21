@@ -6,7 +6,28 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
         </svg>
       </div>
-      <p class="text-lg font-semibold text-white">{{ 'order.success' | translate }}</p>
+      <h1 class="font-display text-xl font-bold text-white">{{ 'order.confirmedTitle' | translate }}</h1>
+      <p class="mt-2 text-brand-100">{{ 'order.success' | translate }}</p>
+
+      @if (product(); as p) {
+        <div class="mt-6 space-y-1 rounded-lg bg-black/20 p-4 text-left text-sm">
+          @if (confirmedOrder(); as o) {
+            <div class="flex justify-between text-gray-300">
+              <span>{{ 'order.orderNumber' | translate }}</span>
+              <span class="font-semibold text-white">#{{ orderRef(o._id) }}</span>
+            </div>
+          }
+          <div class="flex justify-between text-gray-300">
+            <span>{{ name(p) }}</span>
+            <span>&times; {{ form.controls.quantity.value }}</span>
+          </div>
+          <div class="flex justify-between border-t border-white/10 pt-1 font-bold text-white">
+            <span>{{ 'order.total' | translate }}</span>
+            <span class="font-display">{{ total() }} {{ 'common.tnd' | translate }}</span>
+          </div>
+        </div>
+      }
+
       <a
         routerLink="/"
         class="mt-6 inline-block transform-gpu rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition-all duration-200 hover:scale-105 hover:bg-lime-600 hover:shadow-md active:scale-95"
@@ -17,8 +38,8 @@
   } @else if (product(); as p) {
     <div class="animate-fade-in-up rounded-2xl bg-brand-600 p-6 shadow-card sm:p-8">
       <div class="mb-6 flex items-center gap-4 border-b border-white/10 pb-6">
-        @if (p.images?.[0]) {
-          <img [src]="p.images[0] | cloudinaryQuality: 150" [alt]="name(p)" class="h-16 w-16 rounded-lg object-cover" />
+        @if (p.images[0]) {
+          <img [src]="p.images[0] | cloudinaryQuality: 150" [alt]="name(p)" [title]="name(p)" class="h-16 w-16 rounded-lg object-cover" />
         }
         <div>
           <p class="font-semibold text-white">{{ name(p) }}</p>
@@ -38,23 +59,24 @@
       <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
         <div>
           <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.quantity' | translate }}</label>
-          <input type="number" min="1" formControlName="quantity" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
+          <app-quantity-stepper [value]="form.controls.quantity.value ?? 1" (valueChange)="setQuantity($event)" />
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.prenom' | translate }}</label>
-            <input type="text" formControlName="prenom" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
+            <label for="prenom-input" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.prenom' | translate }}</label>
+            <input id="prenom-input" type="text" formControlName="prenom" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
           <div>
-            <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.nom' | translate }}</label>
-            <input type="text" formControlName="nom" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
+            <label for="nom-input" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.nom' | translate }}</label>
+            <input id="nom-input" type="text" formControlName="nom" class="w-full rounded-lg border-gray-300 focus:border-violet-500 focus:ring-violet-500" />
           </div>
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.telephone' | translate }}</label>
+          <label for="telephone-input" class="mb-1 block text-sm font-medium text-gray-200">{{ 'order.telephone' | translate }}</label>
           <input
+            id="telephone-input"
             type="tel"
             formControlName="telephone"
             maxlength="8"
@@ -101,8 +123,14 @@
         <button
           type="submit"
           [disabled]="submitting()"
-          class="w-full transform-gpu rounded-full bg-lime-500 px-6 py-3 font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.02] hover:bg-lime-600 hover:shadow-md active:scale-95 disabled:opacity-60 disabled:hover:scale-100"
+          class="flex w-full transform-gpu items-center justify-center gap-2 rounded-full bg-lime-500 px-6 py-3.5 font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.02] hover:bg-lime-600 hover:shadow-md active:scale-95 disabled:opacity-60 disabled:hover:scale-100"
         >
+          @if (submitting()) {
+            <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+          }
           {{ (submitting() ? 'order.submitting' : 'order.submit') | translate }}
         </button>
       </form>

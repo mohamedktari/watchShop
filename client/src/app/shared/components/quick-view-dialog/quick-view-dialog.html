@@ -1,0 +1,81 @@
+@if (quickView.product(); as p) {
+  <div
+    class="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+    (click)="close()"
+  >
+    <div
+      class="max-h-[90vh] w-full max-w-3xl animate-scale-in overflow-y-auto rounded-2xl bg-brand-600 shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="grid grid-cols-1 gap-0 sm:grid-cols-2">
+        <div class="relative aspect-square overflow-hidden bg-brand-100">
+          @if (p.images[0]) {
+            <img [src]="p.images[0] | cloudinaryQuality: 800" [alt]="name()" class="h-full w-full object-cover" />
+          }
+          <button
+            type="button"
+            (click)="close()"
+            class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white sm:hidden"
+            aria-label="Fermer"
+            title="Fermer"
+          >
+            &#10005;
+          </button>
+        </div>
+
+        <div class="relative flex flex-col p-6">
+          <button
+            type="button"
+            (click)="close()"
+            class="absolute right-4 top-4 hidden h-8 w-8 items-center justify-center rounded-full bg-black/20 text-white transition-colors hover:bg-black/40 sm:flex"
+            aria-label="Fermer"
+            title="Fermer"
+          >
+            &#10005;
+          </button>
+
+          @if (p.category) {
+            <span class="text-xs font-medium uppercase tracking-wide text-lime-400">{{ p.category }}</span>
+          }
+          <h2 class="font-display mt-1 pr-8 text-xl font-bold text-white">{{ name() }}</h2>
+
+          <div class="mt-2 flex items-baseline gap-2">
+            @if (hasDiscount()) {
+              <span class="text-sm text-gray-400 line-through">{{ p.price }} {{ 'common.tnd' | translate }}</span>
+              <span class="font-display text-xl font-bold text-violet-400">{{ p.discountPrice }} {{ 'common.tnd' | translate }}</span>
+            } @else {
+              <span class="font-display text-xl font-bold text-brand-100">{{ p.price }} {{ 'common.tnd' | translate }}</span>
+            }
+          </div>
+
+          @if (description()) {
+            <p class="mt-4 line-clamp-4 whitespace-pre-line text-sm text-gray-300">{{ description() }}</p>
+          }
+
+          <div class="mt-auto flex flex-col gap-2 pt-6">
+            @if (p.stock > 0) {
+              <button
+                type="button"
+                (click)="navigate(['/commander', p._id])"
+                class="w-full transform-gpu rounded-full bg-lime-500 px-6 py-3 text-center font-semibold text-brand-900 transition-all duration-200 hover:scale-[1.02] hover:bg-lime-600 hover:shadow-md active:scale-95"
+              >
+                {{ 'home.order' | translate }}
+              </button>
+            } @else {
+              <span class="w-full rounded-full bg-gray-700 px-6 py-3 text-center font-medium text-gray-300">
+                {{ 'home.outOfStock' | translate }}
+              </span>
+            }
+            <button
+              type="button"
+              (click)="navigate(['/produit', p._id])"
+              class="w-full rounded-full border border-white/20 px-6 py-3 text-center font-medium text-white transition-colors hover:border-lime-400 hover:text-lime-400"
+            >
+              {{ 'product.viewDetails' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

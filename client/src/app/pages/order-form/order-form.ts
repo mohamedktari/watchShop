@@ -8,13 +8,15 @@ import { ProductService } from '../../core/services/product.service';
 import { OrderService } from '../../core/services/order.service';
 import { LanguageService } from '../../core/services/language.service';
 import { Product } from '../../shared/models/product.model';
+import { Order } from '../../shared/models/order.model';
 import { effectivePrice, hasDiscount } from '../../shared/utils/pricing';
 import { CloudinaryQualityPipe } from '../../shared/pipes/cloudinary-quality.pipe';
+import { QuantityStepper } from '../../shared/components/quantity-stepper/quantity-stepper';
 
 @Component({
   selector: 'app-order-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule, CloudinaryQualityPipe],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule, CloudinaryQualityPipe, QuantityStepper],
   templateUrl: './order-form.html',
 })
 export class OrderForm implements OnInit {
@@ -30,6 +32,7 @@ export class OrderForm implements OnInit {
   submitting = signal(false);
   submitted = signal(false);
   errorMsg = signal(false);
+  confirmedOrder = signal<Order | null>(null);
 
   form = this.fb.group({
     quantity: [1, [Validators.required, Validators.min(1)]],
@@ -53,6 +56,9 @@ export class OrderForm implements OnInit {
     const productId = this.route.snapshot.paramMap.get('productId');
     if (!productId) return;
     this.productService.getOne(productId).subscribe((product) => this.product.set(product));
+
+    const qty = Number(this.route.snapshot.queryParamMap.get('qty'));
+    if (qty > 0) this.form.controls.quantity.setValue(qty);
   }
 
   name(p: Product): string {
@@ -69,6 +75,14 @@ export class OrderForm implements OnInit {
 
   hasDiscount(p: Product): boolean {
     return hasDiscount(p);
+  }
+
+  setQuantity(value: number): void {
+    this.form.controls.quantity.setValue(value);
+  }
+
+  orderRef(id: string): string {
+    return id.slice(-6).toUpperCase();
   }
 
   submit(): void {
@@ -93,8 +107,9 @@ export class OrderForm implements OnInit {
         adresse: value.adresse!,
       })
       .subscribe({
-        next: () => {
+        next: (res) => {
           this.submitting.set(false);
+          this.confirmedOrder.set(res.order);
           this.submitted.set(true);
         },
         error: () => {

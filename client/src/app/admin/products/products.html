@@ -82,26 +82,14 @@
       </h2>
 
       <form [formGroup]="form" (ngSubmit)="save()" class="space-y-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.nameFr' | translate }}</label>
-            <input type="text" formControlName="nameFr" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500" />
-          </div>
-          <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.nameAr' | translate }}</label>
-            <input type="text" formControlName="nameAr" dir="rtl" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500" />
-          </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.nameFr' | translate }}</label>
+          <input type="text" formControlName="nameFr" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500" />
         </div>
 
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.descriptionFr' | translate }}</label>
-            <textarea formControlName="descriptionFr" rows="3" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500"></textarea>
-          </div>
-          <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.descriptionAr' | translate }}</label>
-            <textarea formControlName="descriptionAr" dir="rtl" rows="3" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500"></textarea>
-          </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'admin.products.descriptionFr' | translate }}</label>
+          <textarea formControlName="descriptionFr" rows="3" class="w-full rounded-lg border-gray-300 transition-shadow focus:border-violet-500 focus:ring-violet-500"></textarea>
         </div>
 
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">

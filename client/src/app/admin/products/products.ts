@@ -27,9 +27,7 @@ export class AdminProducts implements OnInit {
 
   form = this.fb.group({
     nameFr: ['', Validators.required],
-    nameAr: ['', Validators.required],
     descriptionFr: [''],
-    descriptionAr: [''],
     price: [0, [Validators.required, Validators.min(0)]],
     discountPrice: [null as number | null, [Validators.min(0)]],
     stock: [0, [Validators.required, Validators.min(0)]],
@@ -56,7 +54,7 @@ export class AdminProducts implements OnInit {
     this.editingId.set(null);
     this.selectedFiles = [];
     this.existingImages.set([]);
-    this.form.reset({ nameFr: '', nameAr: '', descriptionFr: '', descriptionAr: '', price: 0, discountPrice: null, stock: 0, category: '', isActive: true });
+    this.form.reset({ nameFr: '', descriptionFr: '', price: 0, discountPrice: null, stock: 0, category: '', isActive: true });
     this.showForm.set(true);
   }
 
@@ -66,9 +64,7 @@ export class AdminProducts implements OnInit {
     this.existingImages.set([...product.images]);
     this.form.reset({
       nameFr: product.nameFr,
-      nameAr: product.nameAr,
       descriptionFr: product.descriptionFr,
-      descriptionAr: product.descriptionAr,
       price: product.price,
       discountPrice: product.discountPrice,
       stock: product.stock,
@@ -101,9 +97,11 @@ export class AdminProducts implements OnInit {
     const value = this.form.getRawValue();
     const formData = new FormData();
     formData.append('nameFr', value.nameFr!);
-    formData.append('nameAr', value.nameAr!);
+    // The admin form no longer collects a separate Arabic name/description - mirror the
+    // French text into both so the Arabic site view still shows something instead of blank.
+    formData.append('nameAr', value.nameFr!);
     formData.append('descriptionFr', value.descriptionFr || '');
-    formData.append('descriptionAr', value.descriptionAr || '');
+    formData.append('descriptionAr', value.descriptionFr || '');
     formData.append('price', String(value.price));
     formData.append('discountPrice', value.discountPrice != null ? String(value.discountPrice) : '');
     formData.append('stock', String(value.stock));

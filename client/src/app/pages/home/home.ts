@@ -50,7 +50,11 @@ export class Home implements OnInit {
 
   editorialProducts = computed(() => this.products().slice(0, 3));
 
-  priceCeiling = computed(() => this.products().reduce((max, p) => Math.max(max, p.price), 0));
+  priceBounds = computed(() => {
+    const prices = this.products().map((p) => this.effective(p));
+    if (prices.length === 0) return { min: 0, max: 0 };
+    return { min: Math.min(...prices), max: Math.max(...prices) };
+  });
 
   filteredProducts = computed(() => {
     let list = this.products();

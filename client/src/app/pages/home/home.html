@@ -144,14 +144,14 @@
         <option value="newest" class="text-brand-900">{{ 'catalogue.sortNewest' | translate }}</option>
       </select>
 
-      @if (priceCeiling() > 0) {
+      @if (priceBounds().max > priceBounds().min) {
         <label class="flex w-full items-center gap-2 text-sm text-brand-100 sm:w-56">
           <span class="shrink-0">{{ 'catalogue.priceFilter' | translate }}</span>
           <input
             type="range"
-            min="0"
-            [max]="priceCeiling()"
-            [value]="maxPrice() ?? priceCeiling()"
+            [min]="priceBounds().min"
+            [max]="priceBounds().max"
+            [value]="maxPrice() ?? priceBounds().max"
             (input)="onMaxPriceInput($event)"
             class="w-full accent-lime-500"
           />

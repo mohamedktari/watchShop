@@ -1,22 +1,24 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProductService } from '../../core/services/product.service';
 import { OrderService } from '../../core/services/order.service';
 import { LanguageService } from '../../core/services/language.service';
+import { ToastService } from '../../core/services/toast.service';
 import { Product } from '../../shared/models/product.model';
 import { Order } from '../../shared/models/order.model';
 import { effectivePrice, hasDiscount } from '../../shared/utils/pricing';
 import { CloudinaryQualityPipe } from '../../shared/pipes/cloudinary-quality.pipe';
 import { QuantityStepper } from '../../shared/components/quantity-stepper/quantity-stepper';
+import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 
 @Component({
   selector: 'app-order-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule, CloudinaryQualityPipe, QuantityStepper],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule, CloudinaryQualityPipe, QuantityStepper, MagneticDirective],
   templateUrl: './order-form.html',
 })
 export class OrderForm implements OnInit {
@@ -24,6 +26,8 @@ export class OrderForm implements OnInit {
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
   private orderService = inject(OrderService);
+  private toast = inject(ToastService);
+  private translate = inject(TranslateService);
   public lang = inject(LanguageService);
 
   readonly deliveryFee = 8;
@@ -33,6 +37,7 @@ export class OrderForm implements OnInit {
   submitted = signal(false);
   errorMsg = signal(false);
   confirmedOrder = signal<Order | null>(null);
+  totalPulse = signal(false);
 
   form = this.fb.group({
     quantity: [1, [Validators.required, Validators.min(1)]],
@@ -51,6 +56,19 @@ export class OrderForm implements OnInit {
     return (p ? effectivePrice(p) : 0) * (this.quantity() || 0);
   });
   total = computed(() => this.subtotal() + this.deliveryFee);
+
+  constructor() {
+    let first = true;
+    effect(() => {
+      this.total();
+      if (first) {
+        first = false;
+        return;
+      }
+      this.totalPulse.set(true);
+      setTimeout(() => this.totalPulse.set(false), 300);
+    });
+  }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
@@ -89,6 +107,9 @@ export class OrderForm implements OnInit {
     const p = this.product();
     if (!p || this.form.invalid) {
       this.form.markAllAsTouched();
+      if (this.form.controls.telephone.invalid) {
+        this.toast.show(this.translate.instant('toast.phoneError'), 'error');
+      }
       return;
     }
 

@@ -1,0 +1,50 @@
+@if (viewer.images(); as imgs) {
+  <div class="fixed inset-0 z-[70] flex animate-fade-in items-center justify-center bg-black/95 p-4" (click)="close()">
+    <button
+      type="button"
+      (click)="close()"
+      class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-200 hover:bg-white/20"
+      aria-label="Fermer"
+      title="Fermer"
+    >
+      &#10005;
+    </button>
+
+    @if (imgs.length > 1) {
+      <button
+        type="button"
+        (click)="viewer.prev(); stop($event)"
+        class="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-200 hover:bg-white/20 sm:left-4"
+        aria-label="Image precedente"
+        title="Image precedente"
+      >
+        &#8249;
+      </button>
+      <button
+        type="button"
+        (click)="viewer.next(); stop($event)"
+        class="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-200 hover:bg-white/20 sm:right-4"
+        aria-label="Image suivante"
+        title="Image suivante"
+      >
+        &#8250;
+      </button>
+    }
+
+    <img
+      [src]="imgs[viewer.index()] | cloudinaryQuality: 1600"
+      [alt]="'Image ' + (viewer.index() + 1)"
+      [title]="'Image ' + (viewer.index() + 1)"
+      class="max-h-[85vh] max-w-[92vw] animate-scale-in cursor-zoom-in object-contain transition-transform duration-300"
+      [class.scale-150]="zoomed()"
+      [class.cursor-zoom-out]="zoomed()"
+      (click)="toggleZoom($event)"
+    />
+
+    @if (imgs.length > 1) {
+      <span class="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white">
+        {{ viewer.index() + 1 }} / {{ imgs.length }}
+      </span>
+    }
+  </div>
+}

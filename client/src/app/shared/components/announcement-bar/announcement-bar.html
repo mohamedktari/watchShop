@@ -1,0 +1,16 @@
+<div class="relative overflow-hidden bg-lime-500 py-2 text-brand-900">
+  <div class="flex w-max animate-ticker">
+    @for (rep of [0, 1]; track rep) {
+      <div class="flex shrink-0 items-center gap-3 pr-8 text-xs font-semibold whitespace-nowrap sm:text-sm" [attr.aria-hidden]="rep === 1 ? 'true' : null">
+        <span>&#128666; {{ 'ticker.delivery' | translate }}</span>
+        <span class="opacity-50">&bull;</span>
+        <span>&#128179; {{ 'ticker.payment' | translate }}</span>
+        <span class="opacity-50">&bull;</span>
+        <span>&#8986; {{ 'ticker.quality' | translate }}</span>
+        <span class="opacity-50">&bull;</span>
+        <span>&#128154; {{ 'ticker.simplicity' | translate }}</span>
+        <span class="opacity-50">&bull;</span>
+      </div>
+    }
+  </div>
+</div>

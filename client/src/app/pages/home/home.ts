@@ -5,24 +5,39 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ProductService } from '../../core/services/product.service';
 import { LanguageService } from '../../core/services/language.service';
 import { WishlistService } from '../../core/services/wishlist.service';
+import { RecentlyViewedService } from '../../core/services/recently-viewed.service';
 import { Product } from '../../shared/models/product.model';
 import { hasDiscount } from '../../shared/utils/pricing';
 import { ProductCard } from '../../shared/components/product-card/product-card';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { MagneticDirective } from '../../shared/directives/magnetic.directive';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { CloudinaryQualityPipe } from '../../shared/pipes/cloudinary-quality.pipe';
+import { SplitWordsPipe } from '../../shared/pipes/split-words.pipe';
 
 type SortOption = 'default' | 'priceAsc' | 'priceDesc' | 'newest';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, ProductCard, RevealDirective, CloudinaryQualityPipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    TranslateModule,
+    ProductCard,
+    RevealDirective,
+    MagneticDirective,
+    TiltDirective,
+    CloudinaryQualityPipe,
+    SplitWordsPipe,
+  ],
   templateUrl: './home.html',
 })
 export class Home implements OnInit {
   private productService = inject(ProductService);
   private route = inject(ActivatedRoute);
   wishlist = inject(WishlistService);
+  recentlyViewed = inject(RecentlyViewedService);
   public lang = inject(LanguageService);
 
   products = signal<Product[]>([]);
@@ -49,6 +64,16 @@ export class Home implements OnInit {
   signatureProduct = computed<Product | null>(() => this.products()[0] ?? null);
 
   editorialProducts = computed(() => this.products().slice(0, 3));
+
+  recentlyViewedProducts = computed(() => {
+    const byId = new Map(this.products().map((p) => [p._id, p]));
+    return this.recentlyViewed
+      .ids()
+      .map((id) => byId.get(id))
+      .filter((p): p is Product => !!p);
+  });
+
+  faqOpenIndex = signal<number | null>(null);
 
   priceBounds = computed(() => {
     const prices = this.products().map((p) => this.effective(p));
@@ -125,6 +150,10 @@ export class Home implements OnInit {
 
   clearFavoritesFilter(): void {
     this.favoritesOnly.set(false);
+  }
+
+  toggleFaq(index: number): void {
+    this.faqOpenIndex.set(this.faqOpenIndex() === index ? null : index);
   }
 
   resetFilters(): void {

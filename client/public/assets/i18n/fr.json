@@ -21,7 +21,14 @@
   },
   "collections": {
     "title": "Nos collections",
-    "subtitle": "Un style pour chaque moment."
+    "subtitle": "Un style pour chaque moment.",
+    "discover": "Decouvrir"
+  },
+  "ticker": {
+    "delivery": "Livraison partout en Tunisie",
+    "payment": "Paiement a la livraison",
+    "quality": "Montres selectionnees avec soin",
+    "simplicity": "Commande simple, sans compte"
   },
   "catalogue": {
     "title": "La collection complete",
@@ -58,11 +65,26 @@
     "subtitle": "Une piece qui vous ressemble vous attend.",
     "cta": "Explorer la collection"
   },
+  "recentlyViewed": {
+    "title": "Recemment consultees"
+  },
+  "faq": {
+    "title": "Questions frequentes",
+    "q0": "Comment passer une commande ?",
+    "a0": "Choisissez votre montre, cliquez sur Commander et indiquez vos coordonnees. Aucune creation de compte n'est necessaire.",
+    "q1": "Quels moyens de paiement acceptez-vous ?",
+    "a1": "Le paiement s'effectue uniquement a la livraison, en especes.",
+    "q2": "Comment se deroule la livraison ?",
+    "a2": "Nous livrons partout en Tunisie. Des reception de votre commande, nous vous appelons pour confirmer les details avant l'envoi.",
+    "q3": "Puis-je modifier ma commande apres l'avoir envoyee ?",
+    "a3": "Oui. Nous vous appelons pour confirmer chaque commande : vous pourrez ajuster les details a ce moment-la."
+  },
   "footer": {
     "tagline": "Des montres pensees pour sublimer chaque instant, livrees partout en Tunisie.",
     "shop": "Boutique",
     "catalogue": "Catalogue",
-    "why": "Pourquoi nous"
+    "why": "Pourquoi nous",
+    "faq": "Questions frequentes"
   },
   "home": {
     "order": "Commander",
@@ -160,6 +182,11 @@
       "save": "Enregistrer",
       "cancel": "Annuler"
     }
+  },
+  "toast": {
+    "wishlistAdd": "Ajoute aux favoris",
+    "wishlistRemove": "Retire des favoris",
+    "phoneError": "Verifiez votre numero de telephone"
   },
   "common": {
     "tnd": "TND"

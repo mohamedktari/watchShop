@@ -1,88 +1,106 @@
 <div class="relative flex min-h-screen flex-col">
-  <video #bgVideo autoplay muted loop playsinline preload="auto" class="fixed inset-0 -z-20 h-full w-full object-cover">
+  <app-scroll-progress />
+
+  <video #bgVideo autoplay muted loop playsinline preload="auto" class="hero-video fixed inset-0 -z-20 h-full w-full object-cover">
     <source src="/assets/video/backgrounshop.mp4" type="video/mp4" />
   </video>
   <div class="fixed inset-0 -z-10 bg-brand-900/70"></div>
+  <div #spotlight class="ambient-spotlight pointer-events-none fixed inset-0 -z-10"></div>
 
-  <header class="sticky top-0 z-40 animate-slide-down border-b border-white/10 bg-brand-900/70 text-white shadow-lg backdrop-blur-md">
-    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-      <a routerLink="/" class="shrink-0 transition-transform duration-200 hover:scale-105">
-        <img src="/assets/logo.png" alt="Tivlo Store" class="h-9 w-auto md:h-10" />
-      </a>
+  <div class="sticky top-0 z-40">
+    <app-announcement-bar />
 
-      <nav class="hidden items-center gap-8 text-sm font-medium md:flex">
-        <a [routerLink]="['/']" fragment="catalogue" class="transition-colors hover:text-lime-400">{{ 'nav.shop' | translate }}</a>
-        <a [routerLink]="['/']" fragment="collections" class="transition-colors hover:text-lime-400">{{ 'nav.collections' | translate }}</a>
-        <a
-          [routerLink]="['/']"
-          [queryParams]="{ favoris: 1 }"
-          fragment="catalogue"
-          class="flex items-center gap-1.5 transition-colors hover:text-lime-400"
-        >
-          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 21s-7.5-4.6-10-9.1C0.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.6 5 2.3 1.1-1.7 3-2.6 5-2.3 3.5.6 5.2 4.2 3.5 7.7C19.5 16.4 12 21 12 21z"
-            />
-          </svg>
-          {{ 'nav.wishlist' | translate }}
-          @if (wishlistCount() > 0) {
-            <span class="flex h-4 w-4 items-center justify-center rounded-full bg-lime-500 text-[10px] font-bold text-brand-900">
-              {{ wishlistCount() }}
-            </span>
-          }
+    <header
+      class="animate-slide-down border-b border-white/10 text-white transition-all duration-300"
+      [class.bg-brand-900/90]="scrolled()"
+      [class.backdrop-blur-md]="scrolled()"
+      [class.shadow-lg]="scrolled()"
+      [class.bg-brand-900/60]="!scrolled()"
+      [class.backdrop-blur-sm]="!scrolled()"
+    >
+      <div
+        class="mx-auto flex max-w-6xl items-center justify-between px-4 transition-[padding] duration-300"
+        [class.py-4]="!scrolled()"
+        [class.py-2.5]="scrolled()"
+      >
+        <a routerLink="/" class="shrink-0 transition-transform duration-200 hover:scale-105">
+          <img src="/assets/logo.png" alt="Tivlo Store" class="h-9 w-auto transition-all duration-300 md:h-10" [class.md:h-8]="scrolled()" />
         </a>
-      </nav>
 
-      <div class="flex items-center gap-3">
-        <app-language-switcher />
-        <button
-          type="button"
-          class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 transition-colors hover:border-lime-400 md:hidden"
-          (click)="mobileMenuOpen.set(!mobileMenuOpen())"
-          aria-label="Menu"
-          title="Menu"
-        >
-          @if (mobileMenuOpen()) {
-            <span class="text-lg leading-none">&#10005;</span>
-          } @else {
-            <span class="text-lg leading-none">&#9776;</span>
-          }
-        </button>
+        <nav class="hidden items-center gap-8 text-sm font-medium md:flex">
+          <a [routerLink]="['/']" fragment="catalogue" class="transition-colors hover:text-lime-400">{{ 'nav.shop' | translate }}</a>
+          <a [routerLink]="['/']" fragment="collections" class="transition-colors hover:text-lime-400">{{ 'nav.collections' | translate }}</a>
+          <a
+            [routerLink]="['/']"
+            [queryParams]="{ favoris: 1 }"
+            fragment="catalogue"
+            class="flex items-center gap-1.5 transition-colors hover:text-lime-400"
+          >
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 21s-7.5-4.6-10-9.1C0.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.6 5 2.3 1.1-1.7 3-2.6 5-2.3 3.5.6 5.2 4.2 3.5 7.7C19.5 16.4 12 21 12 21z"
+              />
+            </svg>
+            {{ 'nav.wishlist' | translate }}
+            @if (wishlistCount() > 0) {
+              <span class="flex h-4 w-4 items-center justify-center rounded-full bg-lime-500 text-[10px] font-bold text-brand-900">
+                {{ wishlistCount() }}
+              </span>
+            }
+          </a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <app-language-switcher />
+          <button
+            type="button"
+            class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 transition-colors hover:border-lime-400 md:hidden"
+            (click)="mobileMenuOpen.set(!mobileMenuOpen())"
+            aria-label="Menu"
+            title="Menu"
+          >
+            @if (mobileMenuOpen()) {
+              <span class="text-lg leading-none">&#10005;</span>
+            } @else {
+              <span class="text-lg leading-none">&#9776;</span>
+            }
+          </button>
+        </div>
       </div>
-    </div>
 
-    @if (mobileMenuOpen()) {
-      <nav class="animate-fade-in-up flex flex-col gap-1 border-t border-white/10 bg-brand-900/95 px-4 py-4 text-sm font-medium md:hidden">
-        <a
-          [routerLink]="['/']"
-          fragment="catalogue"
-          (click)="mobileMenuOpen.set(false)"
-          class="rounded-lg px-3 py-2 transition-colors hover:bg-white/5 hover:text-lime-400"
-        >
-          {{ 'nav.shop' | translate }}
-        </a>
-        <a
-          [routerLink]="['/']"
-          fragment="collections"
-          (click)="mobileMenuOpen.set(false)"
-          class="rounded-lg px-3 py-2 transition-colors hover:bg-white/5 hover:text-lime-400"
-        >
-          {{ 'nav.collections' | translate }}
-        </a>
-        <a
-          [routerLink]="['/']"
-          [queryParams]="{ favoris: 1 }"
-          fragment="catalogue"
-          (click)="mobileMenuOpen.set(false)"
-          class="rounded-lg px-3 py-2 transition-colors hover:bg-white/5 hover:text-lime-400"
-        >
-          {{ 'nav.wishlist' | translate }} @if (wishlistCount() > 0) { ({{ wishlistCount() }}) }
-        </a>
-      </nav>
-    }
-  </header>
+      @if (mobileMenuOpen()) {
+        <nav class="flex flex-col gap-1 border-t border-white/10 bg-brand-900/95 px-4 py-4 text-sm font-medium md:hidden">
+          <a
+            [routerLink]="['/']"
+            fragment="catalogue"
+            (click)="mobileMenuOpen.set(false)"
+            class="animate-fade-in-up rounded-lg px-3 py-2 transition-colors [animation-delay:40ms] hover:bg-white/5 hover:text-lime-400"
+          >
+            {{ 'nav.shop' | translate }}
+          </a>
+          <a
+            [routerLink]="['/']"
+            fragment="collections"
+            (click)="mobileMenuOpen.set(false)"
+            class="animate-fade-in-up rounded-lg px-3 py-2 transition-colors [animation-delay:90ms] hover:bg-white/5 hover:text-lime-400"
+          >
+            {{ 'nav.collections' | translate }}
+          </a>
+          <a
+            [routerLink]="['/']"
+            [queryParams]="{ favoris: 1 }"
+            fragment="catalogue"
+            (click)="mobileMenuOpen.set(false)"
+            class="animate-fade-in-up rounded-lg px-3 py-2 transition-colors [animation-delay:140ms] hover:bg-white/5 hover:text-lime-400"
+          >
+            {{ 'nav.wishlist' | translate }} @if (wishlistCount() > 0) { ({{ wishlistCount() }}) }
+          </a>
+        </nav>
+      }
+    </header>
+  </div>
 
   <main class="relative flex-1">
     <router-outlet />
@@ -99,6 +117,7 @@
         <ul class="mt-3 space-y-2 text-sm text-brand-100/70">
           <li><a [routerLink]="['/']" fragment="catalogue" class="transition-colors hover:text-lime-400">{{ 'footer.catalogue' | translate }}</a></li>
           <li><a [routerLink]="['/']" fragment="collections" class="transition-colors hover:text-lime-400">{{ 'nav.collections' | translate }}</a></li>
+          <li><a [routerLink]="['/']" fragment="faq" class="transition-colors hover:text-lime-400">{{ 'footer.faq' | translate }}</a></li>
         </ul>
       </div>
       <div>
@@ -113,4 +132,6 @@
   </footer>
 
   <app-quick-view-dialog />
+  <app-fullscreen-viewer />
+  <app-toast-container />
 </div>

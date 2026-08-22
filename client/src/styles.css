@@ -51,3 +51,36 @@ html[dir='rtl'] .font-display {
 a, button, select, input {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Cinematic hero spotlight that follows the cursor - set via --spot-x/--spot-y in PublicLayout (desktop only) */
+.ambient-spotlight {
+  background: radial-gradient(600px circle at var(--spot-x, 50%) var(--spot-y, 30%), rgba(199, 243, 107, 0.08), transparent 65%);
+}
+
+/* Sitewide background video: eased so the JS-driven parallax transform (updated per
+   mousemove frame) reads as a smooth drift rather than a snap. Desktop only - the
+   directive/listener that sets this transform already no-ops on coarse pointers. */
+.hero-video {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* SVG checkmark "draw-in" for the order confirmation screen */
+.checkmark-path {
+  stroke-dasharray: 32;
+  stroke-dashoffset: 32;
+  animation: draw-check 0.5s 0.15s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+@keyframes draw-check {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Respect the OS-level motion preference: collapse non-essential animation/transition
+   duration to (near-)zero instead of disabling display, so layout stays correct. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
